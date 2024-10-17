@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import altDp from "../../assets/Profile.jpeg";
+// import "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg" from "../../assets/Profile.jpeg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addComment, getUserPosts, likeUnlikePost } from "../../slice";
 import { SlOptions } from "react-icons/sl";
@@ -56,7 +56,7 @@ function Profile() {
           </div>
           <img
             className='w-32 rounded-full border'
-            src={user.displaypicture || altDp}
+            src={user.displaypicture}
             alt=''
           />
         </div>
@@ -82,7 +82,7 @@ function Profile() {
                   <div className='grid grid-cols-12 items-start'>
                     <img
                       className='rounded-full w-16 col-span-2'
-                      src={user.displaypicture || altDp}
+                      src={user.displaypicture}
                       alt=''
                     />
                     <div className='col-span-9'>
@@ -136,7 +136,9 @@ function Profile() {
                       </button>
                       <button
                         className='flex items-center gap-2'
-                        onClick={() => setcommentOpt(commentOpt === idx ? null : idx)}
+                        onClick={() =>
+                          setcommentOpt(commentOpt === idx ? null : idx)
+                        }
                       >
                         <FaRegComment /> <span>{ele.comments.length}</span>
                       </button>
@@ -182,9 +184,11 @@ function Profile() {
                                   src={ele.displaypicture}
                                   alt=''
                                 />{" "}
-                                <div className="w-full">
+                                <div className='w-full'>
                                   {" "}
-                                  <h3 className="text-lime-200">{ele.username}</h3>
+                                  <h3 className='text-lime-200'>
+                                    {ele.username}
+                                  </h3>
                                   <p className='bg-gray-600 p-1 rounded-md w-full'>
                                     {ele.text}
                                   </p>

@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
     },
     displaypicture: {
       type: String,
-      default: "",
+      default: "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg",
     },
     followers: [{ type: String }],
     following: [{ type: String }],
