@@ -33,6 +33,11 @@ function Profile() {
 
   useEffect(() => {
     setmsgerr(responseObj);
+    if (responseObj.message || responseObj.error) {
+      setTimeout(() => {
+        dispatch(clrrsp({}));
+      }, 5000);
+    }
     setTimeout(() => {
       // dispatch(getUserPosts({ userId: user._id }));
       setmsgerr({ message: "", error: "" });
@@ -126,7 +131,7 @@ function Profile() {
                     <img
                       src={ele.picture}
                       alt=''
-                      className='my-2 rounded-md border'
+                      className='my-2 rounded-md border w-full'
                     />
                     <div className='flex gap-10 text-2xl items-center px-3 py-1'>
                       <button

@@ -28,6 +28,12 @@ function PostCard({ data }) {
   );
 
   useEffect(() => {
+    if (responseObj.message || responseObj.error) {
+      setTimeout(() => {
+        dispatch(clrrsp({}));
+      }, 5000);
+    }
+
     setmsgerr(responseObj);
     setTimeout(() => {
       // dispatch(getUserPosts({ userId: user._id }));
@@ -60,7 +66,7 @@ function PostCard({ data }) {
       <div className='border w-full p-2 rounded-lg border-gray-300'>
         <div className='grid grid-cols-12 items-start'>
           <img
-            className='rounded-full w-16 col-span-2'
+            className='rounded-full w-16 h-16 bg-white object-cover col-span-2'
             src={otherprofile[data.postedBy].displaypicture}
             alt=''
           />
@@ -154,18 +160,13 @@ function PostCard({ data }) {
                       className='flex items-center p-1 justify-start border my-1 rounded-lg'
                     >
                       <img
-                        className='w-10 rounded-full'
+                        className='w-10 h-10 rounded-full'
                         src={ele.displaypicture}
                         alt=''
                       />{" "}
                       <div className='w-full'>
                         {" "}
-                        <h3
-                          className='text-lime-200'
-                       
-                        >
-                          {ele.username}
-                        </h3>
+                        <h3 className='text-lime-200'>{ele.username}</h3>
                         <p className='bg-gray-600 p-1 rounded-md w-full'>
                           {ele.text}
                         </p>

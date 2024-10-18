@@ -14,6 +14,11 @@ function SuggestProfiles() {
   const [msgerr, setmsgerr] = useState({ message: "", error: "" });
 
   useEffect(() => {
+    if (responseObj.message || responseObj.error) {
+      setTimeout(() => {
+        dispatch(clrrsp({}));
+      }, 5000);
+    }
     setmsgerr(responseObj);
     setTimeout(() => {
       setmsgerr({ message: "", error: "" });
@@ -71,7 +76,9 @@ function SuggestProfiles() {
                           })
                         )
                       }
-                      className='border-2 p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800'
+                      className={`border-2 p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800 ${
+                        ele.username == user.username ? "hidden" : ""
+                      }`}
                     >
                       Follow +
                     </button>

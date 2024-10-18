@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { userLogin } from "../../slice";
 
 function Login() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showP, setshowP] = useState(false);
   const [responseMsg, setRsponseMsg] = useState({ message: "", error: "" });
@@ -25,6 +26,9 @@ function Login() {
   }
 
   useEffect(() => {
+    if (user.logged) {
+      navigate("/");
+    }
     setRsponseMsg(registerUser);
     setTimeout(() => {
       setRsponseMsg({ message: "", error: "" });

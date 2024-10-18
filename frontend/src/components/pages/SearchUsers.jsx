@@ -1,12 +1,17 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { followUnfollowUser, searchuser } from "../../slice";
+import { clrrsp, followUnfollowUser, searchuser } from "../../slice";
+import { useNavigate } from "react-router";
 
 function SearchUsers() {
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [query, setquery] = useState("");
-  const { searchusers, user } = useSelector((state) => state.ropes);
+  const { searchusers, user, responseObj } = useSelector(
+    (state) => state.ropes
+  );
   const dispatch = useDispatch();
 
   function handlesubmit(e) {
@@ -18,7 +23,14 @@ function SearchUsers() {
       alert("Query too short");
     }
   }
-
+  useEffect(() => {
+    if (responseObj.message || responseObj.error) {
+      alert(responseObj.message || responseObj.error);
+      setTimeout(() => {
+        dispatch(clrrsp({}));
+      }, 5000);
+    }
+  }, [responseObj]);
   return (
     <div className='flex flex-col gap-1 w-full px-20 py-10 items-center justify-center'>
       <div className='p-8 w-1/2 max-w-full rounded-lg border-2 min-h-dvh text-white bg-gradient-to-r from-slate-500 to-gray-500'>
@@ -54,7 +66,11 @@ function SearchUsers() {
                   <div className='flex flex-col items-start gap-4 justify-center'>
                     <h2
                       className='text-xl text-center'
-                      onClick={() => navigate(`/otherprofile/${ele._id}`)}
+                      onClick={() =>
+                        navigate(`/otherprofile/${ele.username}`, {
+                          state: { data: ele },
+                        })
+                      }
                     >
                       {ele.name}
                     </h2>
@@ -67,7 +83,9 @@ function SearchUsers() {
                           })
                         )
                       }
-                      className='border-2 p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800'
+                      className={`border-2 p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800 ${
+                        ele.username === user.username ? "hidden" : ""
+                      }`}
                     >
                       {user.following.includes(ele._id)
                         ? "Unfollow"

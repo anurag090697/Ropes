@@ -2,6 +2,7 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useEffect } from "react";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_ROPES_API,
@@ -213,6 +214,13 @@ export const searchuser = createAsyncThunk(
   }
 );
 
+export const clrrsp = createAsyncThunk(
+  "ropes/clrrsp",
+  async ({  }, { rejectWithValue }) => {
+    return { message: "", error: "" };
+  }
+);
+
 const ropesSlice = createSlice({
   name: "ropes",
   initialState: {
@@ -280,7 +288,7 @@ const ropesSlice = createSlice({
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.responseObj = action.payload;
+        state.user = action.payload;
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.error = "failed";
@@ -292,6 +300,9 @@ const ropesSlice = createSlice({
       .addCase(createPost.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.responseObj = action.payload;
+        // setTimeout(() => {
+        //   state.responseObj = { message: "", error: "" };
+        // }, 5000);
       })
       .addCase(createPost.rejected, (state, action) => {
         state.error = "failed";
@@ -398,6 +409,9 @@ const ropesSlice = createSlice({
       })
       .addCase(searchuser.rejected, (state, action) => {
         state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(clrrsp.fulfilled, (state, action) => {
         state.responseObj = action.payload;
       });
   },

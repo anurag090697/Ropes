@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaImage } from "react-icons/fa6";
-import { createPost, getNewsFeed } from "../slice";
+import { clrrsp, createPost, getNewsFeed } from "../slice";
 import PostCard from "./pages/PostCard";
 
 function Home() {
@@ -20,6 +20,7 @@ function Home() {
       postData.append("picture", post.picture);
       postData.append("postedBy", user._id);
       dispatch(createPost(postData));
+      setPost({ text: "" });
     } else {
       alert("You need to write something first");
     }
@@ -28,8 +29,12 @@ function Home() {
   useEffect(() => {
     if (responseObj.message || responseObj.error) {
       alert(responseObj.message || responseObj.error);
+      setTimeout(() => {
+        dispatch(clrrsp({}));
+      }, 5000);
     }
-    console.log(responseObj);
+
+    // console.log(responseObj);
   }, [responseObj]);
 
   useEffect(() => {
@@ -46,7 +51,11 @@ function Home() {
             user.logged ? "" : "hidden"
           }`}
         >
-          <img src={user.displaypicture} alt='' className='rounded-full w-16' />
+          <img
+            src={user.displaypicture}
+            alt=''
+            className='rounded-full w-16 h-16'
+          />
           <form
             action=''
             className='w-4/5 flex flex-wrap gap-2 items-center'
