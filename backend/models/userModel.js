@@ -24,7 +24,8 @@ const userSchema = mongoose.Schema(
     },
     displaypicture: {
       type: String,
-      default: "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg",
+      default:
+        "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg",
     },
     followers: [{ type: String }],
     following: [{ type: String }],
@@ -33,7 +34,7 @@ const userSchema = mongoose.Schema(
       default: "",
     },
   },
-  { Timestamp: true }
+  { timestamps: true }
 );
 
 export const userModel = mongoose.model("ropes_user", userSchema);

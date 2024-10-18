@@ -162,6 +162,57 @@ export const followUnfollowUser = createAsyncThunk(
   }
 );
 
+export const getNewsFeed = createAsyncThunk(
+  "ropes/getNewsFeed",
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      // console.log(userId);
+      const response = await axiosInstance.get("/getnewsFeed/" + userId);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const getProfileData = createAsyncThunk(
+  "ropes/getProfileData",
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/getProfile/" + userId);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "ropes/deletePost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      console.log({ postId });
+      const response = await axiosInstance.delete("/deletepost/" + postId);
+
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const searchuser = createAsyncThunk(
+  "ropes/searchuser",
+  async ({ query }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("/searchUser/" + query);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 const ropesSlice = createSlice({
   name: "ropes",
   initialState: {
@@ -169,7 +220,10 @@ const ropesSlice = createSlice({
     registerUser: { message: "", error: "" },
     responseObj: { message: "", error: "" },
     userPosts: [],
+    userfeed: [],
     suggestedUsers: [],
+    otherprofile: {},
+    searchusers: [],
     status: "idle",
     error: "null",
   },
@@ -193,6 +247,7 @@ const ropesSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action.payload;
+        // state.responseObj = {message:}
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.error = "failed";
@@ -294,6 +349,54 @@ const ropesSlice = createSlice({
         state.responseObj = action.payload;
       })
       .addCase(followUnfollowUser.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(getNewsFeed.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getNewsFeed.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.userfeed = action.payload;
+      })
+      .addCase(getNewsFeed.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(getProfileData.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getProfileData.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        let tm = action.payload;
+        let temp = state.otherprofile;
+        let uname = tm._id;
+        temp[uname] = tm;
+        state.otherprofile = temp;
+      })
+      .addCase(getProfileData.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(deletePost.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.responseObj = action.payload;
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(searchuser.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(searchuser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.searchusers = action.payload;
+      })
+      .addCase(searchuser.rejected, (state, action) => {
         state.error = "failed";
         state.responseObj = action.payload;
       });

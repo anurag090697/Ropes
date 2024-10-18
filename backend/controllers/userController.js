@@ -43,7 +43,7 @@ export async function userLogin(req, res) {
         .cookie("ropes_token", newtoken, {
           httpOnly: true,
           sameSite: "strict",
-          Secure:true,
+          secure: true,
           maxAge: 10 * 24 * 60 * 60 * 1000, //10days
         })
         .status(202)
@@ -169,6 +169,40 @@ export async function updateFollowing(req, res) {
       });
       return res.status(201).json({ message: "User followed", error: "" });
     }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
+  }
+}
+
+export async function getOtherProfile(req, res) {
+  try {
+    const { userId } = req.params;
+    const finduser = await userModel.findById(userId);
+    if (!finduser) {
+      return res.status(401).json({ message: "", error: "user not found" });
+    }
+    finduser.password = null;
+    res.status(200).json(finduser);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
+  }
+}
+
+export async function searchuser(req, res) {
+  try {
+    const { query } = req.params;
+    // console.log(query);
+    const result = await userModel.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { username: { $regex: query, $options: "i" } },
+      ],
+    });
+    res.status(200).json(result);
   } catch (error) {
     res
       .status(500)

@@ -42,7 +42,7 @@ const postSchema = mongoose.Schema(
       },
     ],
   },
-  { Timestamp: true }
+  { timestamps: true }
 );
 
 export const postModel = mongoose.model("ropes_post", postSchema);

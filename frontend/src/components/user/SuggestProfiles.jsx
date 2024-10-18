@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { followUnfollowUser, getSuggestedUsers } from "../../slice";
+import { useNavigate } from "react-router";
 
 function SuggestProfiles() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, responseObj, suggestedUsers } = useSelector(
     (state) => state.ropes
@@ -50,7 +52,16 @@ function SuggestProfiles() {
                     alt=''
                   />{" "}
                   <div className='flex flex-col items-start gap-4 justify-center'>
-                    <h2 className='text-xl text-center'>{ele.name}</h2>
+                    <h2
+                      className='text-xl text-center'
+                      onClick={() =>
+                        navigate(`/otherprofile/${ele.username}`, {
+                          state: { data: ele },
+                        })
+                      }
+                    >
+                      {ele.name}
+                    </h2>
                     <button
                       onClick={() =>
                         dispatch(

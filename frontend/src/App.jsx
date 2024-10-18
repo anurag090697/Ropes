@@ -11,6 +11,8 @@ import Profile from "./components/user/Profile";
 import EditProfile from "./components/user/EditProfile";
 import Home from "./components/Home";
 import SuggestProfiles from "./components/user/SuggestProfiles";
+import SearchUsers from "./components/pages/SearchUsers";
+import OtherProfile from "./components/pages/OtherProfile";
 // import { alreadyLogged } from "./slice";
 function App() {
   const { user } = useSelector((state) => state.ropes);
@@ -36,6 +38,11 @@ function App() {
             path='/suggestedUsers'
             element={<SuggestProfiles></SuggestProfiles>}
           ></Route>
+          <Route
+            path='/searchUser'
+            element={<SearchUsers></SearchUsers>}
+          ></Route>
+          <Route path='/otherprofile/:userId' element={<OtherProfile></OtherProfile>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,28 +1,46 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaImage } from "react-icons/fa6";
-import { createPost } from "../slice";
+import { createPost, getNewsFeed } from "../slice";
+import PostCard from "./pages/PostCard";
 
 function Home() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.ropes);
+  const { user, userfeed, responseObj } = useSelector((state) => state.ropes);
   const [post, setPost] = useState({ text: "" });
 
   function handleSubmit(e) {
     e.preventDefault();
     // console.log(user);
-    const postData = new FormData();
-    postData.append("text", post.text);
-    postData.append("picture", post.picture);
-    postData.append("postedBy", user._id);
-    dispatch(createPost(postData));
+    if (post.text || post.picture) {
+      const postData = new FormData();
+      postData.append("text", post.text);
+      postData.append("picture", post.picture);
+      postData.append("postedBy", user._id);
+      dispatch(createPost(postData));
+    } else {
+      alert("You need to write something first");
+    }
   }
-//   console.log(post.picture);
+
+  useEffect(() => {
+    if (responseObj.message || responseObj.error) {
+      alert(responseObj.message || responseObj.error);
+    }
+    console.log(responseObj);
+  }, [responseObj]);
+
+  useEffect(() => {
+    if (user.logged) {
+      dispatch(getNewsFeed({ userId: user._id }));
+    }
+  }, [user]);
+  //   console.log(post.picture);
   return (
     <div className='flex flex-col gap-1 w-full px-20 py-10 items-center justify-center'>
-      <div className='p-8 w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-8 w-1/2 max-w-full rounded-lg border-2 min-h-dvh text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div
           className={`flex items-start justify-between py-6 ${
             user.logged ? "" : "hidden"
@@ -64,7 +82,18 @@ function Home() {
           </form>
         </div>
         <hr />
-        <div className='flex flex-col items-center justify-center gap-8'></div>
+        <div className='flex flex-col items-center justify-center gap-8 relative'>
+          <h1 className='text-3xl py-2 text-blue-300'>NewsFeed</h1>
+          <div className='flex flex-col gap-2 items-center justify-center'>
+            {userfeed.length ? (
+              userfeed.map((ele, idx) => {
+                return <PostCard key={idx} data={ele} user={user}></PostCard>;
+              })
+            ) : (
+              <p className='text-rose-400 text-2xl my-20'>No Posts to Show</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

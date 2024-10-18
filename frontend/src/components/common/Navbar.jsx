@@ -149,7 +149,7 @@ function Navbar() {
             <GoHome />
           </NavLink>
           <NavLink
-            to='/search'
+            to='/searchUser'
             className={({ isActive }) =>
               isActive ? "text-lime-200" : "hover:text-white"
             }

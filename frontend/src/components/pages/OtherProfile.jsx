@@ -2,21 +2,23 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg" from "../../assets/Profile.jpeg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   addComment,
   deletePost,
+  followUnfollowUser,
   getUserPosts,
   likeUnlikePost,
 } from "../../slice";
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
-import { MdOutlineRepeatOne } from "react-icons/md";
+
 import { FaHeart } from "react-icons/fa";
 
-function Profile() {
+function OtherProfile() {
+  const location = useLocation();
+  const { data } = location.state || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, userPosts, responseObj } = useSelector((state) => state.ropes);
@@ -24,25 +26,24 @@ function Profile() {
   const [commentOpt, setcommentOpt] = useState(null);
   const [msgerr, setmsgerr] = useState({ message: "", error: "" });
   const [newComment, setnewComment] = useState("");
-
+  // console.log(data);
   useEffect(() => {
-    let userId = user._id;
-    if (userId) dispatch(getUserPosts({ userId }));
-    // console.log(user._id);
-  }, [user]);
+    if (data._id) dispatch(getUserPosts({ userId: data._id }));
+    // console.log(data._id);
+  }, [data]);
 
   useEffect(() => {
     setmsgerr(responseObj);
     setTimeout(() => {
-      // dispatch(getUserPosts({ userId: user._id }));
+      // dispatch(getuserPosts({ dataId: data._id }));
       setmsgerr({ message: "", error: "" });
     }, 2000);
   }, [responseObj]);
 
-  // console.log(userPosts);
-  if (!user.logged) {
-    return <div>LOADINGGGGGGGGGG</div>;
+  if (!data || !user.logged) {
+    return <p className='py-20 text-sky-400 text-3xl'>Loading</p>;
   }
+
   return (
     <div className='flex flex-col gap-1 w-full px-20 py-10 items-center justify-center'>
       <div
@@ -56,23 +57,27 @@ function Profile() {
       <div className='p-8 w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div className='flex items-start justify-between'>
           <div className='text-center font-medium pt-2'>
-            <h1 className='text-2xl'>{user.name}</h1>
-            <h2 className='text-xl'>{user.username}</h2>
+            <h1 className='text-2xl'>{data.name}</h1>
+            <h2 className='text-xl'>{data.username}</h2>
+            <button
+              className='border-2 p-1 rounded-lg my-2 hover:bg-sky-400'
+              onClick={() =>
+                dispatch(
+                  followUnfollowUser({ userId: user._id, targetId: data._id })
+                )
+              }
+            >
+              {user.following.includes(data._id) ? "Unfollow " : "Follow +"}
+            </button>
           </div>
           <img
             className='w-32 h-32 object-cover rounded-full border'
-            src={user.displaypicture}
+            src={data.displaypicture}
             alt=''
           />
         </div>
-        <p>{user.bio}</p>
-        <p className='text-gray-300'>{user.followers.length} Followers</p>
-        <button
-          onClick={() => navigate(`/editprofile/${user.username}`)}
-          className='w-full border rounded-md my-2 bg-blue-950 py-1 hover:text-gray-300'
-        >
-          Edit Profile
-        </button>
+        <p>{data.bio}</p>
+        <p className='text-gray-300'>{data.followers.length} Followers</p>
       </div>
       <div className='p-8 w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h2 className='text-xl text-center'>Posts</h2>
@@ -87,11 +92,11 @@ function Profile() {
                   <div className='grid grid-cols-12 items-start'>
                     <img
                       className='rounded-full w-16 col-span-2'
-                      src={user.displaypicture}
+                      src={data.displaypicture}
                       alt=''
                     />
                     <div className='col-span-9'>
-                      <h3>{user.name}</h3>
+                      <h3>{data.name}</h3>
                       <p>{ele.text}</p>
                     </div>
 
@@ -107,18 +112,8 @@ function Profile() {
                         className={`absolute bg-white top-4 left-0 text-black rounded-lg border border-gray-800 hover:underline p-1 ${
                           optmenu === idx ? "" : "hidden"
                         }`}
-                        onClick={() => {
-                          user._id === ele.postedBy
-                            ? dispatch(
-                                deletePost({
-                                  postId: ele._id,
-                                  postedBy: user._id,
-                                })
-                              )
-                            : "";
-                        }}
                       >
-                        Delete
+                        Report
                       </span>
                     </div>
                   </div>
@@ -134,13 +129,13 @@ function Profile() {
                         onClick={() =>
                           dispatch(
                             likeUnlikePost({
-                              userId: user._id,
+                              userId: data._id,
                               postId: ele._id,
                             })
                           )
                         }
                       >
-                        {ele.likes.includes(user._id) ? (
+                        {ele.likes.includes(data._id) ? (
                           <span className='text-rose-600'>
                             <FaHeart />
                           </span>
@@ -192,10 +187,10 @@ function Profile() {
                             return (
                               <div
                                 key={idx}
-                                className='flex items-center p-1 justify-start border my-1 rounded-lg'
+                                className='flex items-center p-1 gap-1 justify-center border my-1 rounded-lg'
                               >
                                 <img
-                                  className='w-10 rounded-full'
+                                  className='w-10 h-10 rounded-full'
                                   src={ele.displaypicture}
                                   alt=''
                                 />{" "}
@@ -228,4 +223,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default OtherProfile;
