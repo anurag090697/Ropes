@@ -132,6 +132,36 @@ export const addComment = createAsyncThunk(
   }
 );
 
+export const getSuggestedUsers = createAsyncThunk(
+  "ropes/getSuggestedUsers",
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      // console.log(userId);
+      const response = await axiosInstance.get("/suggestedUsers/" + userId);
+
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
+export const followUnfollowUser = createAsyncThunk(
+  "ropes/followUnfollowUser",
+  async ({ userId, targetId }) => {
+    try {
+      const response = await axiosInstance.post("/followUnfollowUser", {
+        userId,
+        targetId,
+      });
+      // console.log(response);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 const ropesSlice = createSlice({
   name: "ropes",
   initialState: {
@@ -139,6 +169,7 @@ const ropesSlice = createSlice({
     registerUser: { message: "", error: "" },
     responseObj: { message: "", error: "" },
     userPosts: [],
+    suggestedUsers: [],
     status: "idle",
     error: "null",
   },
@@ -241,6 +272,28 @@ const ropesSlice = createSlice({
         state.responseObj = action.payload;
       })
       .addCase(addComment.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(getSuggestedUsers.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getSuggestedUsers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.suggestedUsers = action.payload;
+      })
+      .addCase(getSuggestedUsers.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(followUnfollowUser.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(followUnfollowUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.responseObj = action.payload;
+      })
+      .addCase(followUnfollowUser.rejected, (state, action) => {
         state.error = "failed";
         state.responseObj = action.payload;
       });

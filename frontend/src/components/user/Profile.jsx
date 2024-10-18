@@ -55,7 +55,7 @@ function Profile() {
             <h2 className='text-xl'>{user.username}</h2>
           </div>
           <img
-            className='w-32 rounded-full border'
+            className='w-32 h-32 object-cover rounded-full border'
             src={user.displaypicture}
             alt=''
           />

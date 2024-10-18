@@ -3,6 +3,8 @@
 import express from "express";
 import {
   alreadyLoogedUser,
+  getSuggestedProfiles,
+  updateFollowing,
   updateProfile,
   userLogin,
   userLogout,
@@ -36,6 +38,8 @@ ropesRouter.post("/createPost", upload.single("picture"), createNewPost);
 ropesRouter.get("/getUser/post/:userId", getUserPosts);
 ropesRouter.put("/likeUnlikepost", likeUnlikePost);
 ropesRouter.post("/addNewComment", newComment);
+ropesRouter.get("/suggestedUsers/:userId", getSuggestedProfiles);
+ropesRouter.post("/followUnfollowUser", updateFollowing);
 
 // ropesRouter.post(
 //   "/updateUserData",

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Profile from "./components/user/Profile";
 import EditProfile from "./components/user/EditProfile";
 import Home from "./components/Home";
+import SuggestProfiles from "./components/user/SuggestProfiles";
 // import { alreadyLogged } from "./slice";
 function App() {
   const { user } = useSelector((state) => state.ropes);
@@ -31,6 +32,10 @@ function App() {
             element={<EditProfile></EditProfile>}
           ></Route>
           <Route path='/' element={<Home></Home>}></Route>
+          <Route
+            path='/suggestedUsers'
+            element={<SuggestProfiles></SuggestProfiles>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

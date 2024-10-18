@@ -18,8 +18,6 @@ function Login() {
     email: "",
   });
 
-
-
   function handleSubmit(e) {
     e.preventDefault();
     // console.log(userData);
@@ -36,7 +34,7 @@ function Login() {
   return (
     <div className='md:pl-20 pt-8 flex items-center justify-center w-full'>
       <div className='py-6 px-4 rounded-lg border-2 border-sky-800 bg-slate-600 text-white'>
-        <h1 className='text-center text-2xl'>Signup</h1>
+        <h1 className='text-center text-2xl'>Login</h1>
         <form
           action=''
           className='flex flex-col gap-4 py-4 px-2 items-center justify-center text-blue-700'

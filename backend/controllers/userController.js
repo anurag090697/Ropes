@@ -43,6 +43,7 @@ export async function userLogin(req, res) {
         .cookie("ropes_token", newtoken, {
           httpOnly: true,
           sameSite: "strict",
+          Secure:true,
           maxAge: 10 * 24 * 60 * 60 * 1000, //10days
         })
         .status(202)
@@ -83,7 +84,9 @@ export function userLogout(req, res) {
     });
     res.status(200).json({ message: "Logout successfully", logged: false });
   } catch (error) {
-    res.status(500).json({ message: "", error: err });
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
   }
 }
 
@@ -105,6 +108,70 @@ export async function updateProfile(req, res) {
     await user.save();
     res.status(202).json({ ...user, logged: true });
   } catch (error) {
-    res.status(500).json({ message: "", error: err });
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
+  }
+}
+
+export async function getSuggestedProfiles(req, res) {
+  try {
+    const { userId } = req.params;
+    // console.log(userId);
+    const finduser = await userModel.findById(userId);
+    if (!finduser) {
+      return res.status(401).json({ message: "", error: "user not found" });
+    }
+    const allusers = await userModel.aggregate([
+      {
+        $match: {
+          username: { $ne: finduser.username },
+        },
+      },
+    ]);
+
+    let followedUsers = finduser.following;
+    const finalUsers = allusers.filter(
+      (ele) => !followedUsers.includes(ele._id)
+    );
+    res.status(200).json(finalUsers);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
+  }
+}
+
+export async function updateFollowing(req, res) {
+  try {
+    const { userId, targetId } = req.body;
+    // console.log({ userId, targetId });
+    const finduser = await userModel.findById(userId);
+    const findtarget = await userModel.findById(targetId);
+    if (!finduser || !findtarget) {
+      return res.status(401).json({ message: "", error: "user not found" });
+    }
+    const followed = finduser.following.includes(targetId);
+    if (followed) {
+      await userModel.findByIdAndUpdate(targetId, {
+        $pull: { followers: userId },
+      });
+      await userModel.findByIdAndUpdate(userId, {
+        $pull: { following: targetId },
+      });
+      return res.status(201).json({ message: "User Unfollowed", error: "" });
+    } else {
+      await userModel.findByIdAndUpdate(targetId, {
+        $push: { followers: userId },
+      });
+      await userModel.findByIdAndUpdate(userId, {
+        $push: { following: targetId },
+      });
+      return res.status(201).json({ message: "User followed", error: "" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "", error: "An error occured please try again" });
   }
 }

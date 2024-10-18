@@ -13,6 +13,7 @@ import { alreadyLogged, userLogout } from "../../slice";
 import { FaConnectdevelop } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -156,12 +157,12 @@ function Navbar() {
             <IoSearch />
           </NavLink>
           <NavLink
-            to='/addd'
+            to='/suggestedUsers'
             className={({ isActive }) =>
               isActive ? "text-lime-200" : "hover:text-white"
             }
           >
-            <FaPlus />
+            <AiOutlineUsergroupAdd />
           </NavLink>
           <NavLink
             to='/notifications'
