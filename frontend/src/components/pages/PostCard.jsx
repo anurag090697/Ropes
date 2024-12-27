@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   addComment,
+  clrrsp,
   getProfileData,
   getUserPosts,
   likeUnlikePost,
@@ -47,7 +48,7 @@ function PostCard({ data }) {
       dispatch(getProfileData({ userId: data.postedBy }));
     }
   }, []);
-
+  // console.log(otherprofile)
   if (!otherprofile[data.postedBy] || !user || !data) {
     return <p className='py-20 text-center text-rose-600'>Loading....</p>;
   }
@@ -55,33 +56,47 @@ function PostCard({ data }) {
   return (
     <>
       {" "}
-      {/* <div
+      <div
         className={`${
           msgerr.message || msgerr.error ? "" : "hidden"
-        } fixed z-50 w-full font-medium bg-white/50 top-0 h-dvh flex flex-col items-center justify-center text-2xl `}
+        } fixed z-40 w-full font-medium bg-white/50 top-0 h-dvh flex flex-col items-center justify-center text-2xl `}
       >
         <p className='text-lime-400'>{msgerr.message}</p>
         <p className='text-rose-700'>{msgerr.error}</p>
-      </div> */}
-      <div className='border w-full p-2 rounded-lg border-gray-300'>
-        <div className='grid grid-cols-12 items-start'>
-          <img
-            className='rounded-full w-16 h-16 bg-white object-cover col-span-2'
-            src={otherprofile[data.postedBy].displaypicture}
-            alt=''
-          />
-          <div className='col-span-9'>
-            <h3>{otherprofile[data.postedBy].name}</h3>
-            <p>{data.text}</p>
-          </div>
+      </div>
+      <div className='border w-full bg-slate-600 p-2 rounded-lg border-gray-300'>
+        <div className='flex items-start justify-between'>
+          <div className='flex items-center justify-start gap-2 cursor-pointer'>
+            <img
+              className='rounded-full w-12 h-12 bg-white object-cover'
+              src={otherprofile[data.postedBy].displaypicture}
+              alt=''
+              onClick={() =>
+                navigate(
+                  "/otherprofile/" + otherprofile[data.postedBy].username,
+                  { state: { data: otherprofile[data.postedBy] } }
+                )
+              }
+            />
 
-          <div className='relative col-span-1'>
+            <h3
+              onClick={() =>
+                navigate(
+                  "/otherprofile/" + otherprofile[data.postedBy].username,
+                  { state: { data: otherprofile[data.postedBy] } }
+                )
+              }
+            >
+              {otherprofile[data.postedBy].name}
+            </h3>
+          </div>
+          <div className='relative'>
             {" "}
             <button onClick={() => setoptmenu(!optmenu)} className=''>
               <SlOptions />
             </button>
             <span
-              className={`absolute bg-white top-4 left-0 text-black rounded-lg border border-gray-800 hover:underline p-1 ${
+              className={`absolute bg-white top-4 right-0 text-sm md:text-lg text-black rounded-lg border border-gray-800 hover:underline p-1 ${
                 optmenu ? "" : "hidden"
               }`}
             >
@@ -95,6 +110,7 @@ function PostCard({ data }) {
             alt=''
             className='my-2 rounded-md border w-full'
           />
+
           <div className='flex gap-10 text-2xl items-center px-3 py-1'>
             <button
               className='flex items-center gap-2'
@@ -126,6 +142,7 @@ function PostCard({ data }) {
           <MdOutlineRepeatOne />
         </button> */}
           </div>
+          <p className='px-2'>{data.text}</p>
           <div className={`${commentOpt ? "" : "hidden"}`}>
             <div className='relative'>
               <input
@@ -157,7 +174,7 @@ function PostCard({ data }) {
                   return (
                     <div
                       key={idx}
-                      className='flex items-center p-1 justify-start border my-1 rounded-lg'
+                      className='flex items-center gap-1 p-1 justify-start border my-1 rounded-lg'
                     >
                       <img
                         className='w-10 h-10 rounded-full'
@@ -167,7 +184,7 @@ function PostCard({ data }) {
                       <div className='w-full'>
                         {" "}
                         <h3 className='text-lime-200'>{ele.username}</h3>
-                        <p className='bg-gray-600 p-1 rounded-md w-full'>
+                        <p className='bg-gray-600 p-1 rounded-md w-full border border-slate-800'>
                           {ele.text}
                         </p>
                       </div>

@@ -13,13 +13,16 @@ import Home from "./components/Home";
 import SuggestProfiles from "./components/user/SuggestProfiles";
 import SearchUsers from "./components/pages/SearchUsers";
 import OtherProfile from "./components/pages/OtherProfile";
+import Messages from "./components/pages/Messages";
+import Notification from "./components/pages/Notification";
+
 // import { alreadyLogged } from "./slice";
 function App() {
   const { user } = useSelector((state) => state.ropes);
   const dispatch = useDispatch();
 
   return (
-    <div className='container min-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none pb-20 dark:from-white dark:to-white'>
+    <div className='container min-w-full max-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none pb-20 dark:from-white dark:to-white'>
       <BrowserRouter>
         <Navbar></Navbar>
         <Routes>
@@ -42,7 +45,12 @@ function App() {
             path='/searchUser'
             element={<SearchUsers></SearchUsers>}
           ></Route>
-          <Route path='/otherprofile/:userId' element={<OtherProfile></OtherProfile>}></Route>
+          <Route
+            path='/otherprofile/:userId'
+            element={<OtherProfile></OtherProfile>}
+          ></Route>
+          <Route path='/messages' element={<Messages></Messages>}></Route>
+          <Route path="/notification" element={<Notification></Notification>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

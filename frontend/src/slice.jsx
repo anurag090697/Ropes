@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useEffect } from "react";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_ROPES_API,
   withCredentials: true,
 });
@@ -114,7 +114,8 @@ export const likeUnlikePost = createAsyncThunk(
         userId,
       });
       // console.log({ userId, postId });
-      return response.data;
+      if (response.data.message != "Post Liked") return response.data;
+      return { userId, postId };
     } catch (error) {
       return error.response.data;
     }
@@ -214,9 +215,33 @@ export const searchuser = createAsyncThunk(
   }
 );
 
+export const getConversation = createAsyncThunk(
+  "ropes/getConversation",
+  async ({ sender, recipient }, { rejectWithValue }) => {
+    try {
+      // console.log(recipient, sender);
+      if (recipient) {
+        const response = await axiosInstance.get(
+          `/getConversations?sender=${sender}&recipient=${recipient}`
+        );
+        // console.log(response);
+        return response.data;
+      } else {
+        const response = await axiosInstance.get(
+          `/getConversations?sender=${sender}`
+        );
+        // console.log(response);
+        return response.data;
+      }
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 export const clrrsp = createAsyncThunk(
   "ropes/clrrsp",
-  async ({  }, { rejectWithValue }) => {
+  async ({}, { rejectWithValue }) => {
     return { message: "", error: "" };
   }
 );
@@ -232,6 +257,7 @@ const ropesSlice = createSlice({
     suggestedUsers: [],
     otherprofile: {},
     searchusers: [],
+    conversations: [],
     status: "idle",
     error: "null",
   },
@@ -324,7 +350,14 @@ const ropesSlice = createSlice({
       })
       .addCase(likeUnlikePost.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.responseObj = action.payload;
+        let temp = state.userfeed;
+        const { userId, postId } = action.payload;
+        temp.forEach((element) => {
+          if (element._id == postId) {
+            element.likes.push(userId);
+          }
+        });
+        state.userfeed = temp;
       })
       .addCase(likeUnlikePost.rejected, (state, action) => {
         state.error = "failed";
@@ -408,6 +441,17 @@ const ropesSlice = createSlice({
         state.searchusers = action.payload;
       })
       .addCase(searchuser.rejected, (state, action) => {
+        state.error = "failed";
+        state.responseObj = action.payload;
+      })
+      .addCase(getConversation.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getConversation.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.conversations = action.payload;
+      })
+      .addCase(getConversation.rejected, (state, action) => {
         state.error = "failed";
         state.responseObj = action.payload;
       })

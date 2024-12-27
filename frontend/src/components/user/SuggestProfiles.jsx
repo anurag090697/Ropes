@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { followUnfollowUser, getSuggestedUsers } from "../../slice";
+import { clrrsp, followUnfollowUser, getSuggestedUsers } from "../../slice";
 import { useNavigate } from "react-router";
 
 function SuggestProfiles() {

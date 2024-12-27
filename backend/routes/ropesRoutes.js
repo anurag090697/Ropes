@@ -22,6 +22,7 @@ import {
   likeUnlikePost,
   newComment,
 } from "../controllers/postController.js";
+import { getChats, sendMsg } from "../controllers/messageController.js";
 
 const ropesRouter = express.Router();
 
@@ -48,7 +49,8 @@ ropesRouter.post("/followUnfollowUser", updateFollowing);
 ropesRouter.get("/getnewsFeed/:userId", getUserFeed);
 ropesRouter.get("/getProfile/:userId", getOtherProfile);
 ropesRouter.delete("/deletepost/:postId", deletePost);
-
+ropesRouter.get("/getConversations", getChats);
+ropesRouter.post("/sendmsg", sendMsg);
 // ropesRouter.post(
 //   "/updateUserData",
 //   upload.single("displaypicture"),

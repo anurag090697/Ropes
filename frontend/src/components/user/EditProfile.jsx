@@ -33,21 +33,21 @@ function EditProfile() {
   }
 
   return (
-    <div className='flex flex-col gap-1 w-full px-20 py-10 items-center justify-center'>
-      <div className='p-8 min-w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+    <div className='flex flex-col gap-1 w-full p-2 md:px-20 md:py-10 items-center justify-center'>
+      <div className='p-4 md:p-8 w-4/5 md:w-2/3 lg:w-1/2 rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h1 className='text-center text-2xl'>Edit Profile</h1>
 
         <form
           action=''
-          className='text-blue-900 font-medium p-2'
+          className='text-blue-900 text-md sm:text-lg font-medium p-1 sm:p-2'
           onSubmit={(e) => handleSubmit(e)}
         >
-          <div className='grid grid-cols-3 w-fit my-2'>
-            <label htmlFor='name' className='col-span-1 text-white'>
+          <div className='grid grid-cols-3 w-full my-2'>
+            <label htmlFor='name' className='col-span-3 sm:col-span-1 text-white'>
               Full Name :{" "}
             </label>
             <input
-              className='col-span-2 rounded-lg py-1 px-3 border border-cyan-900 outline-emerald-700'
+              className='col-span-3 sm:col-span-2 rounded-lg p-1 sm:px-3 border border-cyan-900 outline-emerald-700'
               type='text'
               name='name'
               value={userInfo.name}
@@ -56,13 +56,13 @@ function EditProfile() {
               }
             />
           </div>
-          <div className='grid grid-cols-3 w-fit my-2'>
+          <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='email' className='col-span-1 text-white'>
+            <label htmlFor='email' className='col-span-3 sm:col-span-1 text-white'>
               Email :{" "}
             </label>
             <input
-              className='col-span-2 rounded-lg py-1 px-3 border border-cyan-900 outline-emerald-700'
+              className='col-span-3 sm:col-span-2 rounded-lg p-1 sm:px-3 border border-cyan-900 outline-emerald-700'
               type='email'
               name='email'
               value={userInfo.email}
@@ -72,13 +72,13 @@ function EditProfile() {
               // }
             />
           </div>
-          <div className='grid grid-cols-3 w-fit my-2'>
+          <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='username' className='col-span-1 text-white'>
+            <label htmlFor='username' className='col-span-3 sm:col-span-1 text-white'>
               UserName :{" "}
             </label>
             <input
-              className='col-span-2 rounded-lg py-1 px-3 border border-cyan-900 outline-emerald-700'
+              className='col-span-3 sm:col-span-2 rounded-lg p-1 sm:px-3 border border-cyan-900 outline-emerald-700'
               type='text'
               value={userInfo.username}
               onChange={(e) =>
@@ -86,13 +86,13 @@ function EditProfile() {
               }
             />
           </div>
-          <div className='grid grid-cols-3 w-fit my-2'>
+          <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='bio' className='col-span-1 text-white'>
+            <label htmlFor='bio' className='col-span-3 sm:col-span-1 text-white'>
               Bio :{" "}
             </label>
             <input
-              className='col-span-2 rounded-lg py-1 px-3 border border-cyan-900 outline-emerald-700'
+              className='col-span-3 sm:col-span-2 rounded-lg p-1 sm:px-3 border border-cyan-900 outline-emerald-700'
               type='text'
               value={userInfo.bio}
               onChange={(e) =>
@@ -100,9 +100,9 @@ function EditProfile() {
               }
             />
           </div>
-          <div className=''>
+          <div className='grid grid-cols-3  w-full my-2'>
             {" "}
-            <label htmlFor='displaypicture' className=' text-white'>
+            <label htmlFor='displaypicture' className='col-span-3 sm:col-span-1 text-white'>
               Profile Picture :{" "}
             </label>
             <input
@@ -115,7 +115,7 @@ function EditProfile() {
                   displaypicture: e.currentTarget.files[0],
                 })
               }
-              className='rounded-lg py-1 border border-cyan-900 outline-emerald-700'
+              className='rounded-lg py-1 col-span-3 sm:col-span-2 border border-cyan-900 outline-emerald-700'
             />
           </div>
           {/* <div className='grid grid-cols-3 w-fit my-2'>

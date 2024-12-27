@@ -46,10 +46,20 @@ function Profile() {
 
   // console.log(userPosts);
   if (!user.logged) {
-    return <div>LOADINGGGGGGGGGG</div>;
+    return (
+      <div className='w-full h-dvh flex items-center justify-center text-2xl gap-3 text-gray-200'>
+        <NavLink to='/login' className='hover:text-lime-400'>
+          Login{" "}
+        </NavLink>{" "}
+        <span>or</span>{" "}
+        <NavLink to='/signup' className='hover:text-sky-400'>
+          Signup
+        </NavLink>
+      </div>
+    );
   }
   return (
-    <div className='flex flex-col gap-1 w-full px-20 py-10 items-center justify-center'>
+    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-10 items-center justify-center'>
       <div
         className={`${
           msgerr.message || msgerr.error ? "" : "hidden"
@@ -58,7 +68,7 @@ function Profile() {
         <p className='text-lime-400'>{msgerr.message}</p>
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
-      <div className='p-8 w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div className='flex items-start justify-between'>
           <div className='text-center font-medium pt-2'>
             <h1 className='text-2xl'>{user.name}</h1>
@@ -79,7 +89,7 @@ function Profile() {
           Edit Profile
         </button>
       </div>
-      <div className='p-8 w-1/2 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-1 sm:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h2 className='text-xl text-center'>Posts</h2>
         <div className='flex flex-col items-center justify-center gap-4 p-2'>
           {userPosts.length > 0 ? (
@@ -91,7 +101,7 @@ function Profile() {
                 >
                   <div className='grid grid-cols-12 items-start'>
                     <img
-                      className='rounded-full w-16 col-span-2'
+                      className='rounded-full w-16 h-16 object-cover col-span-2'
                       src={user.displaypicture}
                       alt=''
                     />

@@ -24,13 +24,11 @@ export async function createNewPost(req, res) {
       picture: picU,
     });
     await newPost.save();
-    res
-      .status(201)
-      .json({
-        message: "Post Created successfully",
-        error: "",
-        postCreate: true,
-      });
+    res.status(201).json({
+      message: "Post Created successfully",
+      error: "",
+      postCreate: true,
+    });
   } catch (error) {
     res.status(500).json({ message: "", error: error });
   }
