@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Ropes Social API provides endpoints for user authentication, profile management, post creation, interactions, and social networking features.
+Ropes Social API provides endpoints for user authentication, profile management, post creation, interactions, messaging and social networking features.
 
 ## Base URL
 

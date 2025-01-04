@@ -60,7 +60,7 @@ To start the development server, run:
 npm start
 ```
 
-The application will be available at `https://ropes-one.vercel.app/`.
+The application will be available at [ROPES](https://ropes-one.vercel.app/).
 
 ## Building for Production
 
