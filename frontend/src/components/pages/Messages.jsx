@@ -160,7 +160,7 @@ function Messages() {
                 <input
                   type='text'
                   name='message'
-                  className='w-full py-1 px-3 text-sky-700 text-lg rounded-l-lg '
+                  className='w-full py-1 px-3 text-sky-700 text-lg rounded-l-lg outline-lime-500'
                   value={msg}
                   onChange={(e) => setMsg(e.target.value)}
                   placeholder='Type a message...'

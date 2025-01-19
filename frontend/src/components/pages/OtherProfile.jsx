@@ -30,7 +30,7 @@ function OtherProfile() {
   // console.log(data);
   useEffect(() => {
     if (data._id) dispatch(getUserPosts({ userId: data._id }));
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   useEffect(() => {

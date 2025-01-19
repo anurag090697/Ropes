@@ -31,7 +31,7 @@ const ropesRouter = express.Router();
 // });
 ropesRouter.post("/signup", userSignup);
 ropesRouter.post("/login", userLogin);
-ropesRouter.get("/alreadyLogged", alreadyLoogedUser);
+ropesRouter.post("/alreadyLogged", alreadyLoogedUser);
 ropesRouter.post("/logoutUser", userLogout);
 ropesRouter.post(
   "/updateUserData",

@@ -15,6 +15,10 @@ function Home() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (post.picture && post.picture.size > 2097152) {
+      alert("Image size more than 2mb not supported.");
+      return;
+    }
     // console.log(user);
     if (post.text || post.picture) {
       const postData = new FormData();
@@ -30,7 +34,7 @@ function Home() {
 
   useEffect(() => {
     if (responseObj.message || responseObj.error) {
-      alert(responseObj.message || responseObj.error);
+      // alert(responseObj.message || responseObj.error);
       setTimeout(() => {
         dispatch(clrrsp({}));
       }, 5000);
@@ -46,9 +50,17 @@ function Home() {
       navigate("/login");
     }
   }, [user]);
-  //   console.log(post.picture);
+  // console.log(post.picture);
   return (
-    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-10 items-center justify-center'>
+    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-2 items-center justify-center'>
+       <div
+        className={`${
+          responseObj.message || responseObj.error ? "" : "hidden"
+        } fixed z-50 w-full font-medium bg-white/50 top-0 h-dvh flex flex-col items-center justify-center text-2xl `}
+      >
+        <p className='text-lime-400'>{responseObj.message}</p>
+        <p className='text-rose-700'>{responseObj.error}</p>
+      </div>
       <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 min-h-dvh text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div
           className={`flex items-center justify-center gap-2 md:justify-between py-6 ${
@@ -72,9 +84,9 @@ function Home() {
                 setPost({ ...post, text: e.currentTarget.value })
               }
               placeholder="What's New???"
-              className='rounded-lg outline-fuchsia-900 text-center p-1 w-4/5 font-medium bg-gray-600'
+              className='rounded-lg outline-none text-center p-1 w-4/5 font-medium bg-gray-600 ring-2 ring-transparent focus:ring-violet-400'
             />
-            <label htmlFor='fileinput' className=''>
+            <label htmlFor='fileinput' className='relative'>
               <input
                 type='file'
                 accept='image/*'
@@ -85,8 +97,15 @@ function Home() {
                   setPost({ ...post, picture: e.currentTarget.files[0] })
                 }
               />
-              <span className='text-2xl text-lime-300 hover:text-lime-500'>
+              <span className='text-3xl text-lime-300 hover:text-lime-500'>
                 <FaImage />
+              </span>
+              <span
+                className={`${
+                  post.picture ? "" : "hidden"
+                } absolute font-bold text-xs top-0 right-0 rounded-full bg-rose-500 h-4 w-4 text-center`}
+              >
+                1
               </span>
             </label>
             <button className='py-1 px-2 bg-fuchsia-900 rounded-lg border shadow-md shadow-gray-900 hover:bg-slate-950 hover:border-fuchsia-700 hover:text-cyan-600'>

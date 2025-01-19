@@ -47,7 +47,7 @@ export async function userLogin(req, res) {
           maxAge: 10 * 24 * 60 * 60 * 1000, //10days
         })
         .status(202)
-        .json({ ...temp, logged: true });
+        .json({ ...temp, logged: true, token: newtoken });
     }
   } catch (error) {
     res.status(500).json({ error: "an error occured try again", message: "" });
@@ -56,8 +56,9 @@ export async function userLogin(req, res) {
 
 export async function alreadyLoogedUser(req, res) {
   try {
-    const { ropes_token } = req.cookies;
-    // console.log("first");
+    // const { ropes_token } = req.cookies;
+    const { ropes_token } = req.body;
+    // console.log(ropes_token, req.body);
     const verifyToken = jwt.verify(ropes_token, process.env.JWT_SECRET);
     if (!ropes_token || !verifyToken) {
       return res.send("");

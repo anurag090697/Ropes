@@ -99,17 +99,19 @@ function Profile() {
                   className='border w-full p-2 rounded-lg border-gray-300'
                   key={idx}
                 >
-                  <div className='grid grid-cols-12 items-start'>
-                    <img
-                      className='rounded-full w-16 h-16 object-cover col-span-2'
-                      src={user.displaypicture}
-                      alt=''
-                    />
-                    <div className='col-span-9'>
-                      <h3>{user.name}</h3>
-                      <p>{ele.text}</p>
+                  <div className='flex justify-between items-start'>
+                    <div className="flex items-start justify-start gap-4">
+                      {" "}
+                      <img
+                        className='rounded-full w-16 h-16 object-cover'
+                        src={user.displaypicture}
+                        alt=''
+                      />
+                      <div className='col-span-9'>
+                        <h3 className="text-cyan-400">{user.name}</h3>
+                        <p className="text-blue-100">{ele.text}</p>
+                      </div>
                     </div>
-
                     <div className='relative col-span-1'>
                       {" "}
                       <button

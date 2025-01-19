@@ -5,18 +5,18 @@ import rlogo from "../../assets/threadsl.png";
 import { NavLink } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
-import { FaPlus } from "react-icons/fa";
+import Cookies from 'js-cookie'; 
 import { PiHeartBold } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { alreadyLogged, userLogout } from "../../slice";
-import { FaConnectdevelop } from "react-icons/fa";
-import { MdDarkMode } from "react-icons/md";
-import { MdLightMode } from "react-icons/md";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BsChatRightTextFill } from "react-icons/bs";
-import { SlOptionsVertical } from "react-icons/sl";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+// import { FaConnectdevelop } from "react-icons/fa";
+// import { AiOutlineUsergroupAdd } from "react-icons/ai";
+// import { FaPlus } from "react-icons/fa";
+// import { SlOptionsVertical } from "react-icons/sl";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ function Navbar() {
     });
     // console.log(dark);
   }
+  // console.log(Cookies.get('ropes_token'));
   const logControlls = (
     <ul
       className={`text-lg absolute flex flex-col items-start justify-center w-44 gap-1 ${
@@ -119,12 +120,12 @@ function Navbar() {
   }, []);
 
   return (
-    <div className='relative'>
-      <header className='md:p-2 text-white flex items-center justify-between w-full text-4xl px-4 py-1'>
+    <div className='absolute top-0 z-50'>
+      <header className='md:p-2 text-white flex items-center justify-between w-full fixed text-4xl px-4 py-1 bg-slate-700 md:bg-transparent'>
         <NavLink to={user.logged ? "/" : "/login"} className='place-self-start'>
           <img className='w-12 md:w-14 ' src={rlogo} alt='Ropes-logo' />
         </NavLink>
-        <h3 className="text-3xl md:hidden">Ropes</h3>
+        <h3 className='text-3xl md:hidden'>Ropes</h3>
         <NavLink
           to='/messages'
           className={({ isActive }) =>
@@ -136,7 +137,7 @@ function Navbar() {
           <BsChatRightTextFill />
         </NavLink>
       </header>
-      <div className='text-gray-400 w-full md:w-fit md:mt-20 z-50 text-4xl fixed md:absolute left-0 md:p-4 flex items-center justify-around gap-20 bottom-0 md:top-0 md:flex-col'>
+      <div className='text-gray-400 w-full md:w-fit md:mt-20 z-50 text-4xl fixed left-0 md:p-4 flex items-center justify-around gap-20 bottom-0 md:top-0 md:flex-col'>
         <div className='flex bg-slate-800 w-full md:bg-transparent md:flex-col items-center justify-around py-2 gap-8 '>
           <NavLink
             className={({ isActive }) =>

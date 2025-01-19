@@ -3,6 +3,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_ROPES_API,
@@ -28,6 +29,8 @@ export const userLogin = createAsyncThunk(
   async ({ email, password }, { rejectwithvalue }) => {
     try {
       const response = await axiosInstance.post("/login", { email, password });
+      Cookies.set("ropes_token1", response.data.token, { expires: 10 });
+      // console.log(response.data.token, Cookies.get("ropes"));
       return response.data;
     } catch (error) {
       return error.response.data;
@@ -39,10 +42,21 @@ export const alreadyLogged = createAsyncThunk(
   "ropes/alreadyLogged",
   async ({}, { rejectWithValue }) => {
     try {
-      // console.log("first");
-      const response = await axiosInstance.get("/alreadyLogged", {});
-      // console.log(response);
-      return response.data;
+      const ropes_token = Cookies.get("ropes_token1");
+      // console.log(ropes_token);
+      if (ropes_token) {
+        // console.log('hehe')
+        const response = await axiosInstance.post("/alreadyLogged", {
+          ropes_token: ropes_token,
+        });
+
+        return response.data;
+      } else {
+        const response = await axiosInstance.post("/alreadyLogged", {});
+        return response.data;
+      }
+
+      // console.log(Cookies.get("ropes_token1"));
     } catch (error) {
       //   console.log(error);
       return error.response.data;

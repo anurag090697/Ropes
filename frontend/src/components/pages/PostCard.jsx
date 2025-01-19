@@ -24,6 +24,8 @@ function PostCard({ data }) {
   const [commentOpt, setcommentOpt] = useState(false);
   const [msgerr, setmsgerr] = useState({ message: "", error: "" });
   const [newComment, setnewComment] = useState("");
+  const [postdata, setpostdata] = useState({});
+
   const { user, responseObj, otherprofile } = useSelector(
     (state) => state.ropes
   );
@@ -35,7 +37,7 @@ function PostCard({ data }) {
       }, 5000);
     }
 
-    setmsgerr(responseObj);
+    // setmsgerr(responseObj);
     setTimeout(() => {
       // dispatch(getUserPosts({ userId: user._id }));
       setmsgerr({ message: "", error: "" });
@@ -46,11 +48,33 @@ function PostCard({ data }) {
   useEffect(() => {
     if (data.postedBy) {
       dispatch(getProfileData({ userId: data.postedBy }));
+      setpostdata(data);
     }
   }, []);
-  // console.log(otherprofile)
+  // console.log(postdata);
   if (!otherprofile[data.postedBy] || !user || !data) {
     return <p className='py-20 text-center text-rose-600'>Loading....</p>;
+  }
+
+  function addnewcomment({ user, text, postId }) {
+    dispatch(
+      addComment({
+        user,
+        text,
+        postId,
+      })
+    );
+    let tm = postdata.comments;
+    // console.log(typeof tm);
+    let tm1 = {
+      text: newComment,
+      userId: user._id,
+      displaypicture: user.displaypicture,
+      username: user.username,
+    };
+    tm = [...tm, tm1];
+    setpostdata((prev) => ({ ...prev, comments: tm }));
+    setnewComment("");
   }
 
   return (
@@ -154,13 +178,11 @@ function PostCard({ data }) {
               />{" "}
               <button
                 onClick={() =>
-                  dispatch(
-                    addComment({
-                      user,
-                      text: newComment,
-                      postId: data._id,
-                    })
-                  )
+                  addnewcomment({
+                    user,
+                    text: newComment,
+                    postId: data._id,
+                  })
                 }
                 className={`${
                   commentOpt && newComment ? "" : "hidden"
@@ -169,8 +191,8 @@ function PostCard({ data }) {
                 Post
               </button>
             </div>
-            {data.comments.length > 0
-              ? data.comments.map((ele, idx) => {
+            {postdata.comments && postdata.comments.length > 0
+              ? postdata.comments.map((ele, idx) => {
                   return (
                     <div
                       key={idx}
