@@ -2,7 +2,7 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
@@ -70,6 +70,7 @@ export const userLogout = createAsyncThunk(
     try {
       const response = await axiosInstance.post("/logoutUser", {});
       // console.log(response);
+      Cookies.remove("ropes_token1");
       return response.data;
     } catch (error) {
       // console.log(error)
@@ -382,7 +383,7 @@ const ropesSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.responseObj = action.payload;
+        // state.responseObj = action.payload;
       })
       .addCase(addComment.rejected, (state, action) => {
         state.error = "failed";

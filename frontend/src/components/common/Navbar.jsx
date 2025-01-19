@@ -5,7 +5,7 @@ import rlogo from "../../assets/threadsl.png";
 import { NavLink } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
-import Cookies from 'js-cookie'; 
+// import Cookies from 'js-cookie'; 
 import { PiHeartBold } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
