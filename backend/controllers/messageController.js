@@ -3,7 +3,8 @@
 import mongoose from "mongoose";
 import { conversationModel } from "../models/conversationModel.js";
 import { userModel } from "../models/userModel.js";
-import { uploadImage } from "../services/uploadToCloudinary.js";
+// // import { uploadImage } from "../services/uploadToCloudinary.js";
+import { getIO, emitToUser, broadcastToAll } from "../services/Socket.js";
 
 export async function getChats(req, res) {
   try {
@@ -69,5 +70,47 @@ export async function sendMsg(req, res) {
     res.status(201).json(convos);
   } catch (error) {
     res.status(500).json({ message: "", error: error });
+  }
+}
+
+export async function updateChatData(data) {
+  const { sender, recipient, message, chatId } = data;
+  // console.log(chatId, message);
+  try {
+    const convos = await conversationModel.findById(chatId);
+    if (convos) {
+      // console.log(convos);
+      convos.messages.push(message);
+      await convos.save();
+      return convos;
+    }
+    return null;
+  } catch (error) {
+    return null;
+    // console.log(error);
+  }
+}
+
+export async function markMessageRead(data) {
+  try {
+    const { chatId, user } = data;
+    // console.log(chatId, user);
+    const conversation = await conversationModel.findById(chatId);
+
+    if (!conversation) {
+      // return null;
+      // console.log('geeee')
+    }
+
+    conversation.messages.forEach((message) => {
+      if (message.sender !== user) {
+        message.seen = true;
+      }
+    });
+    // console.log("firstttt");
+    await conversation.save();
+    return conversation;
+  } catch (error) {
+    return null;
   }
 }

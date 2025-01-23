@@ -77,6 +77,27 @@ function PostCard({ data }) {
     setnewComment("");
   }
 
+  function getTimeAgo(isoString) {
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffInMs = now - date;
+
+    const seconds = Math.floor(diffInMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (minutes > 0) {
+      return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else {
+      return "Just now";
+    }
+  }
+
   return (
     <>
       {" "}
@@ -88,9 +109,9 @@ function PostCard({ data }) {
         <p className='text-lime-400'>{msgerr.message}</p>
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
-      <div className='border w-full bg-slate-600 p-2 rounded-lg border-gray-300'>
+      <div className='border-t md:border w-full bg-slate-600 py-1 md:p-2 md:rounded-lg border-gray-300'>
         <div className='flex items-start justify-between'>
-          <div className='flex items-center justify-start gap-2 cursor-pointer'>
+          <div className='flex items-center justify-start gap-4 p-1'>
             <img
               className='rounded-full w-12 h-12 bg-white object-cover'
               src={otherprofile[data.postedBy].displaypicture}
@@ -102,19 +123,21 @@ function PostCard({ data }) {
                 )
               }
             />
-
-            <h3
-              onClick={() =>
-                navigate(
-                  "/otherprofile/" + otherprofile[data.postedBy].username,
-                  { state: { data: otherprofile[data.postedBy] } }
-                )
-              }
-            >
-              {otherprofile[data.postedBy].name}
-            </h3>
+            <div className="flex flex-col items-start">
+              <h3 className="text-sky-300 hover:text-cyan-400 cursor-pointer"
+                onClick={() =>
+                  navigate(
+                    "/otherprofile/" + otherprofile[data.postedBy].username,
+                    { state: { data: otherprofile[data.postedBy] } }
+                  )
+                }
+              >
+                {otherprofile[data.postedBy].name}
+              </h3>
+              <p className='text-gray-300'>{data.text}</p>
+            </div>
           </div>
-          <div className='relative'>
+          <div className='relative p-1'>
             {" "}
             <button onClick={() => setoptmenu(!optmenu)} className=''>
               <SlOptions />
@@ -132,7 +155,7 @@ function PostCard({ data }) {
           <img
             src={data.picture}
             alt=''
-            className='my-2 rounded-md border w-full'
+            className='my-2 md:rounded-md md:border w-full'
           />
 
           <div className='flex gap-10 text-2xl items-center px-3 py-1'>
@@ -166,14 +189,25 @@ function PostCard({ data }) {
           <MdOutlineRepeatOne />
         </button> */}
           </div>
-          <p className='px-2'>{data.text}</p>
+
+          {data.createdAt ? (
+            <p className='p-2 text-xs text-gray-400 font-medium '>
+              {getTimeAgo(data.createdAt)}
+            </p>
+          ) : (
+            <p className='p-2 text-xs text-gray-400 font-medium '>
+              {" "}
+              {getTimeAgo(data.updatedAt)}
+            </p>
+          )}
           <div className={`${commentOpt ? "" : "hidden"}`}>
             <div className='relative'>
               <input
                 type='text'
-                className='w-full text-wrap text-blue-700 rounded-md pr-14 py-1 px-3 h-fit'
+                className='w-full text-wrap text-blue-700 md:rounded-md pr-14 py-1 px-3 h-fit'
                 name='comment'
                 value={newComment}
+                placeholder='Enter to add a comment....'
                 onChange={(e) => setnewComment(e.currentTarget.value)}
               />{" "}
               <button
@@ -196,7 +230,7 @@ function PostCard({ data }) {
                   return (
                     <div
                       key={idx}
-                      className='flex items-center gap-1 p-1 justify-start border my-1 rounded-lg'
+                      className='flex items-center gap-1 p-1 justify-start md:border md:my-1 md:rounded-lg'
                     >
                       <img
                         className='w-10 h-10 rounded-full'

@@ -51,9 +51,12 @@ function Home() {
     }
   }, [user]);
   // console.log(post.picture);
+  if (!user.logged) {
+    return navigate("/login");
+  }
   return (
-    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-2 items-center justify-center'>
-       <div
+    <div className='flex flex-col gap-1 w-full md:px-20 md:py-2 items-center justify-center'>
+      <div
         className={`${
           responseObj.message || responseObj.error ? "" : "hidden"
         } fixed z-50 w-full font-medium bg-white/50 top-0 h-dvh flex flex-col items-center justify-center text-2xl `}
@@ -61,7 +64,7 @@ function Home() {
         <p className='text-lime-400'>{responseObj.message}</p>
         <p className='text-rose-700'>{responseObj.error}</p>
       </div>
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 min-h-dvh text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-2 min-h-dvh text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div
           className={`flex items-center justify-center gap-2 md:justify-between py-6 ${
             user.logged ? "" : "hidden"
@@ -114,9 +117,9 @@ function Home() {
           </form>
         </div>
         <hr />
-        <div className='flex flex-col items-center justify-center gap-8 relative'>
+        <div className='flex flex-col items-center justify-center md:gap-8 relative'>
           <h1 className='text-3xl py-2 text-blue-300'>NewsFeed</h1>
-          <div className='flex flex-col gap-2 items-center justify-center'>
+          <div className='flex flex-col md:gap-2 items-center justify-center'>
             {userfeed.length ? (
               userfeed.map((ele, idx) => {
                 return <PostCard key={idx} data={ele} user={user}></PostCard>;

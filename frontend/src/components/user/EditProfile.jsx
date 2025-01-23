@@ -33,8 +33,8 @@ function EditProfile() {
   }
 
   return (
-    <div className='flex flex-col gap-1 w-full p-2 md:px-20 md:py-10 items-center justify-center'>
-      <div className='p-4 md:p-8 w-4/5 md:w-2/3 lg:w-1/2 rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+    <div className='flex flex-col gap-1 w-full md:p-2 md:px-20 md:py-10 items-center justify-center'>
+      <div className='p-4 w-full md:p-8  md:w-2/3 lg:w-1/2 md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h1 className='text-center text-2xl'>Edit Profile</h1>
 
         <form
@@ -43,7 +43,10 @@ function EditProfile() {
           onSubmit={(e) => handleSubmit(e)}
         >
           <div className='grid grid-cols-3 w-full my-2'>
-            <label htmlFor='name' className='col-span-3 sm:col-span-1 text-white'>
+            <label
+              htmlFor='name'
+              className='col-span-3 sm:col-span-1 text-white'
+            >
               Full Name :{" "}
             </label>
             <input
@@ -58,7 +61,10 @@ function EditProfile() {
           </div>
           <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='email' className='col-span-3 sm:col-span-1 text-white'>
+            <label
+              htmlFor='email'
+              className='col-span-3 sm:col-span-1 text-white'
+            >
               Email :{" "}
             </label>
             <input
@@ -74,7 +80,10 @@ function EditProfile() {
           </div>
           <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='username' className='col-span-3 sm:col-span-1 text-white'>
+            <label
+              htmlFor='username'
+              className='col-span-3 sm:col-span-1 text-white'
+            >
               UserName :{" "}
             </label>
             <input
@@ -88,7 +97,10 @@ function EditProfile() {
           </div>
           <div className='grid grid-cols-3 w-full my-2'>
             {" "}
-            <label htmlFor='bio' className='col-span-3 sm:col-span-1 text-white'>
+            <label
+              htmlFor='bio'
+              className='col-span-3 sm:col-span-1 text-white'
+            >
               Bio :{" "}
             </label>
             <input
@@ -102,7 +114,10 @@ function EditProfile() {
           </div>
           <div className='grid grid-cols-3  w-full my-2'>
             {" "}
-            <label htmlFor='displaypicture' className='col-span-3 sm:col-span-1 text-white'>
+            <label
+              htmlFor='displaypicture'
+              className='col-span-3 sm:col-span-1 text-white'
+            >
               Profile Picture :{" "}
             </label>
             <input
@@ -141,7 +156,10 @@ function EditProfile() {
             />
           </div> */}
 
-          <div className='w-full flex items-center justify-center py-10'>
+          <div className='w-full flex flex-col items-center justify-center py-4'>
+            <p className='text-xs font-normal py-4 text-red-950'>
+              Image size must be less than 2MB
+            </p>
             <button className=' bg-orange-400 font-medium border text-xl py-2 px-4 rounded-xl text-white shadow-md shadow-orange-900 active:shadow-none hover:border-orange-600 hover:bg-orange-200 hover:text-gray-600 active:translate-y-1 transition-all'>
               Save
             </button>

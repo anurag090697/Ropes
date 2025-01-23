@@ -22,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
 
   return (
-    <div className='container min-w-full max-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none py-20 dark:from-white dark:to-white'>
+    <div className='container min-w-full max-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none py-14 md:pb-2 dark:from-white dark:to-white'>
       <BrowserRouter>
         <Navbar></Navbar>
         <Routes>

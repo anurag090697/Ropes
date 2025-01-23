@@ -46,7 +46,7 @@ function OtherProfile() {
   }
 
   return (
-    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-10 items-center justify-center'>
+    <div className='flex flex-col md:gap-1 w-full md:px-20 md:py-10 items-center justify-center'>
       <div
         className={`${
           msgerr.message || msgerr.error ? "" : "hidden"
@@ -55,11 +55,11 @@ function OtherProfile() {
         <p className='text-lime-400'>{msgerr.message}</p>
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-y md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div className='flex items-center justify-between'>
           <div className='text-center font-medium pt-2'>
-            <h1 className='text-2xl'>{data.name}</h1>
-            <h2 className='text-xl'>{data.username}</h2>
+            <h1 className='md:text-2xl'>{data.name}</h1>
+            <h2 className='text-xl text-amber-400'>{data.username}</h2>
           </div>
 
           <img
@@ -93,9 +93,9 @@ function OtherProfile() {
         <p>{data.bio}</p>
         <p className='text-gray-300'>{data.followers.length} Followers</p>
       </div>
-      <div className='p-1 md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className=' md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h2 className='text-xl text-center'>Posts</h2>
-        <div className='flex flex-col items-center justify-center gap-4 p-2'>
+        <div className='flex flex-col items-center justify-center md:gap-4 md:p-2'>
           {userPosts.length > 0 ? (
             userPosts.map((ele, idx) => {
               return <PostCard key={idx} data={ele}></PostCard>;

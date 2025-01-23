@@ -45,7 +45,7 @@ function SearchUsers() {
   }, [user]);
 
   return (
-    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-10 items-center justify-center'>
+    <div className='flex flex-col md:gap-1 w-full md:px-20 md:py-10 items-center justify-center'>
       <div
         className={`${
           msgerr.message || msgerr.error ? "" : "hidden"
@@ -55,7 +55,7 @@ function SearchUsers() {
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
 
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <form
           action=''
           className='flex items-center justify-center gap-1 sm:gap-4'
@@ -72,20 +72,20 @@ function SearchUsers() {
             Search
           </button>
         </form>
-        <div className='flex flex-col gap-3 py-5 px-2 sm:px-6 items-center justify-center'>
+        <div className='flex flex-col gap-3 md:py-5 p-2 md:px-6 items-center justify-center'>
           {searchusers.length ? (
             searchusers.map((ele, idx) => {
               return (
                 <div
                   key={idx}
-                  className='border flex items-center justify-center flex-wrap sm:flex-nowrap sm:justify-start gap-6 border-sky-500 p-2 rounded-md w-full'
+                  className='border flex items-center justify-center flex-col md:flex-row md:justify-start gap-1 md:gap-6 border-sky-500 p-2 rounded-md w-full'
                 >
                   <img
                     className='w-40 h-40 object-center rounded-full'
                     src={ele.displaypicture}
                     alt=''
                   />{" "}
-                  <div className='flex flex-col items-start gap-4 justify-center'>
+                  <div className='flex flex-col md:items-start gap-4 justify-center cursor-pointer'>
                     <h2
                       className='text-xl text-center'
                       onClick={() =>
@@ -124,22 +124,22 @@ function SearchUsers() {
           )}
         </div>
       </div>
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-1 md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-t md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h1 className='text-2xl text-center'>Suggested Profiles</h1>
-        <div className='flex flex-wrap gap-4 items-center justify-between py-6'>
+        <div className='flex flex-wrap gap-1 md:gap-4 items-center justify-between py-6'>
           {suggestedUsers.length ? (
             suggestedUsers.map((ele, idx) => {
               return (
                 <div
                   key={idx}
-                  className='border flex items-center flex-wrap sm:flex-nowrap justify-center sm:justify-start gap-6 border-sky-500 p-2 rounded-md w-full'
+                  className='border flex items-center flex-col md:flex-row justify-center md:justify-start gap-6 border-sky-500 p-2 rounded-md w-full'
                 >
                   <img
                     className='w-40 h-40 object-center rounded-full'
                     src={ele.displaypicture}
                     alt=''
                   />{" "}
-                  <div className='flex flex-col items-start gap-4 justify-center'>
+                  <div className='flex flex-col md:items-start gap-4 justify-center'>
                     <h2
                       className='text-xl text-center'
                       onClick={() =>

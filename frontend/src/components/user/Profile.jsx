@@ -44,6 +44,27 @@ function Profile() {
     }, 2000);
   }, [responseObj]);
 
+  function getTimeAgo(isoString) {
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffInMs = now - date;
+
+    const seconds = Math.floor(diffInMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (minutes > 0) {
+      return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else {
+      return "Just now";
+    }
+  }
+
   // console.log(userPosts);
   if (!user.logged) {
     return (
@@ -59,7 +80,7 @@ function Profile() {
     );
   }
   return (
-    <div className='flex flex-col gap-1 w-full px-4 md:px-20 md:py-10 items-center justify-center'>
+    <div className='flex flex-col md:gap-1 w-full md:px-20 md:py-10 items-center justify-center'>
       <div
         className={`${
           msgerr.message || msgerr.error ? "" : "hidden"
@@ -68,7 +89,7 @@ function Profile() {
         <p className='text-lime-400'>{msgerr.message}</p>
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <div className='flex items-start justify-between'>
           <div className='text-center font-medium pt-2'>
             <h1 className='text-2xl'>{user.name}</h1>
@@ -89,18 +110,18 @@ function Profile() {
           Edit Profile
         </button>
       </div>
-      <div className='p-1 sm:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full rounded-lg border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className=' sm:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-t md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h2 className='text-xl text-center'>Posts</h2>
-        <div className='flex flex-col items-center justify-center gap-4 p-2'>
+        <div className='flex flex-col items-center justify-center gap-4 md:p-2'>
           {userPosts.length > 0 ? (
             userPosts.map((ele, idx) => {
               return (
                 <div
-                  className='border w-full p-2 rounded-lg border-gray-300'
+                  className='border-t md:border w-full md:p-2 md:rounded-lg border-gray-300'
                   key={idx}
                 >
-                  <div className='flex justify-between items-start'>
-                    <div className="flex items-start justify-start gap-4">
+                  <div className='flex justify-between items-start p-1'>
+                    <div className='flex items-start justify-start gap-4'>
                       {" "}
                       <img
                         className='rounded-full w-16 h-16 object-cover'
@@ -108,8 +129,8 @@ function Profile() {
                         alt=''
                       />
                       <div className='col-span-9'>
-                        <h3 className="text-cyan-400">{user.name}</h3>
-                        <p className="text-blue-100">{ele.text}</p>
+                        <h3 className='text-cyan-400'>{user.name}</h3>
+                        <p className='text-blue-100'>{ele.text}</p>
                       </div>
                     </div>
                     <div className='relative col-span-1'>
@@ -143,7 +164,7 @@ function Profile() {
                     <img
                       src={ele.picture}
                       alt=''
-                      className='my-2 rounded-md border w-full'
+                      className='my-2 md:rounded-md border w-full'
                     />
                     <div className='flex gap-10 text-2xl items-center px-3 py-1'>
                       <button
@@ -178,11 +199,18 @@ function Profile() {
                         <MdOutlineRepeatOne />
                       </button> */}
                     </div>
+                    {ele.createdAt ? (
+                      <p className='p-2 text-xs text-gray-100 font-medium '>
+                        {getTimeAgo(ele.createdAt)}
+                      </p>
+                    ) : (
+                      <p className='p-2 text-xs text-gray-400 font-medium '> { getTimeAgo(ele.updatedAt)}</p>
+                    )}
                     <div className={`${commentOpt === idx ? "" : "hidden"}`}>
                       <div className='relative'>
                         <input
                           type='text'
-                          className='w-full text-wrap text-blue-700 rounded-md pr-14 py-1 px-3 h-fit'
+                          className='w-full text-wrap text-blue-700 md:rounded-md pr-14 py-1 px-3 h-fit'
                           name='comment'
                           value={newComment}
                           onChange={(e) => setnewComment(e.currentTarget.value)}
@@ -209,10 +237,10 @@ function Profile() {
                             return (
                               <div
                                 key={idx}
-                                className='flex items-center p-1 justify-start border my-1 rounded-lg'
+                                className='flex items-center p-1 justify-start border-t md:border my-1 md:rounded-lg'
                               >
                                 <img
-                                  className='w-10 rounded-full'
+                                  className='w-10 h-10 rounded-full'
                                   src={ele.displaypicture}
                                   alt=''
                                 />{" "}
