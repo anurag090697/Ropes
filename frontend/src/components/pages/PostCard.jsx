@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import "https://res.cloudinary.com/anurag213/image/upload/v1729103634/ropes/blw47vvvj4augpgy8ewb.jpg" from "../../assets/Profile.jpeg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   addComment,
   clrrsp,
+  followUnfollowUser,
   getProfileData,
   getUserPosts,
   likeUnlikePost,
@@ -14,41 +14,42 @@ import {
 import { SlOptions } from "react-icons/sl";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
-import { MdOutlineRepeatOne } from "react-icons/md";
+// import { MdOutlineRepeatOne } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
-function PostCard({ data }) {
+function PostCard({ pdata }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [data, setData] = useState(pdata);
   const [optmenu, setoptmenu] = useState(false);
   const [commentOpt, setcommentOpt] = useState(false);
   const [msgerr, setmsgerr] = useState({ message: "", error: "" });
   const [newComment, setnewComment] = useState("");
-  const [postdata, setpostdata] = useState({});
+  // const [postdata, setpostdata] = useState({});
 
   const { user, responseObj, otherprofile } = useSelector(
     (state) => state.ropes
   );
 
-  useEffect(() => {
-    if (responseObj.message || responseObj.error) {
-      setTimeout(() => {
-        dispatch(clrrsp({}));
-      }, 5000);
-    }
+  // useEffect(() => {
+  //   if (responseObj.message || responseObj.error) {
+  //     setTimeout(() => {
+  //       dispatch(clrrsp({}));
+  //     }, 5000);
+  //   }
 
-    // setmsgerr(responseObj);
-    setTimeout(() => {
-      // dispatch(getUserPosts({ userId: user._id }));
-      setmsgerr({ message: "", error: "" });
-    }, 2000);
-  }, [responseObj]);
+  //   // setmsgerr(responseObj);
+  //   setTimeout(() => {
+  //     // dispatch(getUserPosts({ userId: user._id }));
+  //     setmsgerr({ message: "", error: "" });
+  //   }, 2000);
+  // }, [responseObj]);
   //   console.log(otherprofile);
 
   useEffect(() => {
     if (data.postedBy) {
       dispatch(getProfileData({ userId: data.postedBy }));
-      setpostdata(data);
+      // setpostdata(data);
     }
   }, []);
   // console.log(postdata);
@@ -64,7 +65,7 @@ function PostCard({ data }) {
         postId,
       })
     );
-    let tm = postdata.comments;
+    let tm = data.comments;
     // console.log(typeof tm);
     let tm1 = {
       text: newComment,
@@ -73,8 +74,27 @@ function PostCard({ data }) {
       username: user.username,
     };
     tm = [...tm, tm1];
-    setpostdata((prev) => ({ ...prev, comments: tm }));
+    setData((prev) => ({ ...prev, comments: tm }));
     setnewComment("");
+  }
+
+  function changeLikeUnlike() {
+    dispatch(
+      likeUnlikePost({
+        userId: user._id,
+        postId: data._id,
+      })
+    );
+    const idx = data.likes.indexOf(user._id);
+    console.log(idx);
+    let temp;
+    if (idx === -1) {
+      temp = [...data.likes, user._id];
+    } else {
+      temp = data.likes.filter((ele) => ele != user._id);
+      // temp = data.likes.splice(idx, 1);
+    }
+    setData((prev) => ({ ...prev, likes: temp }));
   }
 
   function getTimeAgo(isoString) {
@@ -96,6 +116,16 @@ function PostCard({ data }) {
     } else {
       return "Just now";
     }
+  }
+
+  function openProfile() {
+    dispatch(getUserPosts({ userId: data.postedBy }));
+    // console.log(data.postedBy);
+    setTimeout(() => {
+      navigate("/otherprofile/" + otherprofile[data.postedBy].username, {
+        state: { data: otherprofile[data.postedBy] },
+      });
+    }, 500);
   }
 
   return (
@@ -123,14 +153,10 @@ function PostCard({ data }) {
                 )
               }
             />
-            <div className="flex flex-col items-start">
-              <h3 className="text-sky-300 hover:text-cyan-400 cursor-pointer"
-                onClick={() =>
-                  navigate(
-                    "/otherprofile/" + otherprofile[data.postedBy].username,
-                    { state: { data: otherprofile[data.postedBy] } }
-                  )
-                }
+            <div className='flex flex-col items-start'>
+              <h3
+                className='text-sky-300 hover:text-cyan-400 cursor-pointer'
+                onClick={() => openProfile()}
               >
                 {otherprofile[data.postedBy].name}
               </h3>
@@ -143,11 +169,19 @@ function PostCard({ data }) {
               <SlOptions />
             </button>
             <span
-              className={`absolute bg-white top-4 right-0 text-sm md:text-lg text-black rounded-lg border border-gray-800 hover:underline p-1 ${
+              onClick={() =>
+                dispatch(
+                  followUnfollowUser({
+                    userId: user._id,
+                    targetId: data.postedBy,
+                  })
+                )
+              }
+              className={`absolute bg-white top-5 right-0 text-sm md:text-lg text-black rounded-lg border border-gray-800 hover:underline p-1 ${
                 optmenu ? "" : "hidden"
               }`}
             >
-              Unfollow
+              {user.following.includes(data.postedBy) ? "Unfollow" : "Follow"}
             </span>
           </div>
         </div>
@@ -161,14 +195,7 @@ function PostCard({ data }) {
           <div className='flex gap-10 text-2xl items-center px-3 py-1'>
             <button
               className='flex items-center gap-2'
-              onClick={() =>
-                dispatch(
-                  likeUnlikePost({
-                    userId: user._id,
-                    postId: data._id,
-                  })
-                )
-              }
+              onClick={() => changeLikeUnlike()}
             >
               {data.likes.includes(user._id) ? (
                 <span className='text-rose-600'>
@@ -196,8 +223,8 @@ function PostCard({ data }) {
             </p>
           ) : (
             <p className='p-2 text-xs text-gray-400 font-medium '>
-              {" "}
-              {getTimeAgo(data.updatedAt)}
+              A while ago
+              {/* {getTimeAgo(data.updatedAt)} */}
             </p>
           )}
           <div className={`${commentOpt ? "" : "hidden"}`}>
@@ -225,8 +252,8 @@ function PostCard({ data }) {
                 Post
               </button>
             </div>
-            {postdata.comments && postdata.comments.length > 0
-              ? postdata.comments.map((ele, idx) => {
+            {data.comments && data.comments.length > 0
+              ? data.comments.map((ele, idx) => {
                   return (
                     <div
                       key={idx}

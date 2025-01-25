@@ -12,7 +12,7 @@ import {
   userLogout,
   userSignup,
 } from "../controllers/userController.js";
-import { uploadImage } from "../services/uploadToCloudinary.js";
+// import { uploadImage } from "../services/uploadToCloudinary.js";
 import upload from "../middlewares/imageUpload.js";
 import {
   createNewPost,
@@ -26,9 +26,6 @@ import { getChats, sendMsg } from "../controllers/messageController.js";
 
 const ropesRouter = express.Router();
 
-// ropesRouter.get("/some", (req, res) => {
-//   res.send("luhuhuhuhh");
-// });
 ropesRouter.post("/signup", userSignup);
 ropesRouter.post("/login", userLogin);
 ropesRouter.post("/alreadyLogged", alreadyLoogedUser);
@@ -51,17 +48,5 @@ ropesRouter.get("/getProfile/:userId", getOtherProfile);
 ropesRouter.delete("/deletepost/:postId", deletePost);
 ropesRouter.get("/getConversations", getChats);
 ropesRouter.post("/sendmsg", sendMsg);
-// ropesRouter.post(
-//   "/updateUserData",
-//   upload.single("displaypicture"),
-//   async (req, res) => {
-//     try {
-//       const url = await uploadImage(req);
-//       console.log(url);
-//       res.send(url);
-//     } catch (error) {
-//       res.send("error");
-//     }
-//   }
-// );
+
 export default ropesRouter;

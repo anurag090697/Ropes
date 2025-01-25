@@ -1,10 +1,23 @@
 <!-- @format -->
 
-# Ropes Social API Documentation
+# ROPES Backend
 
 ## Introduction
 
-Ropes Social API provides endpoints for user authentication, profile management, post creation, interactions, messaging and social networking features.
+The ROPES backend is a RESTful API built with **Node.js** and **Express.js**. It serves as the core of the platform, enabling functionalities like user authentication, profile management, post creation, social interactions, and real-time messaging.
+
+## Features
+
+- **User Authentication**: Secure user registration, login, and session management.
+- **Profile Management**: Update user profiles, including uploading profile pictures.
+- **Post Management**: Create, retrieve, and delete posts, including optional images.
+- **Social Interactions**: Like posts, add comments, and follow/unfollow users.
+- **Real-Time Messaging**:
+  - Send and receive messages in real-time.
+  - Typing indicators to show when someone is composing a message.
+  - Read receipts for delivered messages.
+- **Suggested Users**: Get recommendations for potential connections.
+- **News Feed**: View posts from followed users.
 
 ## Base URL
 
@@ -12,105 +25,149 @@ Ropes Social API provides endpoints for user authentication, profile management,
 https://ropes.onrender.com
 ```
 
-## Endpoints
+## Technologies Used
+
+- **Node.js**: Backend runtime for building scalable applications.
+- **Express.js**: Web framework for API development.
+- **MongoDB**: NoSQL database for efficient data storage.
+- **Mongoose**: ODM (Object Data Modeling) for MongoDB.
+- **Socket.IO**: Real-time, event-based communication for messaging.
+- **JWT (JSON Web Tokens)**: Secure token-based user authentication.
+- **Multer**: Middleware for handling file uploads.
+
+## Prerequisites
+
+Ensure the following tools are installed on your system:
+
+- **Node.js** (v14.0.0 or higher)
+- **npm** (v6.0.0 or higher)
+- **MongoDB** (local or cloud instance)
+
+## API Documentation
 
 ### User Authentication and Profile Management
 
-#### User Signup
+#### Signup
 
 - **URL:** `/signup`
 - **Method:** POST
-- **Description:** Register a new user account.
+- **Description:** Create a new user account.
 
-#### User Login
+#### Login
 
 - **URL:** `/login`
 - **Method:** POST
-- **Description:** Authenticate a user and receive a token.
+- **Description:** Authenticate a user and return a JWT token.
 
-#### Check Logged In User
+#### Get Current User
 
 - **URL:** `/alreadyLogged`
 - **Method:** GET
-- **Description:** Retrieve information about the currently logged-in user.
+- **Description:** Retrieve details of the currently authenticated user.
 
-#### User Logout
+#### Logout
 
 - **URL:** `/logoutUser`
 - **Method:** POST
-- **Description:** Log out the current user and invalidate their token.
+- **Description:** Log out the user and invalidate their token.
 
-#### Update User Profile
+#### Update Profile
 
 - **URL:** `/updateUserData`
 - **Method:** POST
-- **Description:** Update the user's profile information, including profile picture.
-- **Note:** This endpoint uses `upload.single("displaypicture")` middleware for handling file uploads.
+- **Description:** Update user details or profile picture.
+- **Note:** Uses `multer` for file uploads (`displaypicture`).
 
-#### Search Users
-
-- **URL:** `/searchUser/:query`
-- **Method:** GET
-- **Description:** Search for users based on the provided query string.
+---
 
 ### Post Management
 
-#### Create New Post
+#### Create Post
 
 - **URL:** `/createPost`
 - **Method:** POST
-- **Description:** Create a new post with an optional image.
-- **Note:** This endpoint uses `upload.single("picture")` middleware for handling image uploads.
+- **Description:** Share a new post with optional text and image.
 
 #### Get User Posts
 
 - **URL:** `/getUser/post/:userId`
 - **Method:** GET
-- **Description:** Retrieve all posts for a specific user.
+- **Description:** Retrieve all posts from a specific user.
 
 #### Like/Unlike Post
 
 - **URL:** `/likeUnlikepost`
 - **Method:** PUT
-- **Description:** Toggle like status on a post for the current user.
+- **Description:** Toggle the like status of a post.
 
-#### Add New Comment
+#### Comment on Post
 
 - **URL:** `/addNewComment`
 - **Method:** POST
-- **Description:** Add a new comment to a post.
+- **Description:** Add a comment to a post.
 
 #### Delete Post
 
 - **URL:** `/deletepost/:postId`
 - **Method:** DELETE
-- **Description:** Delete a specific post by its ID.
+- **Description:** Remove a specific post by its ID.
 
-### Social Networking
+---
 
-#### Get Suggested Profiles
+### Real-Time Messaging
 
-- **URL:** `/suggestedUsers/:userId`
-- **Method:** GET
-- **Description:** Retrieve a list of suggested user profiles for the given user ID.
+#### Send Message
+
+- **Socket Event:** `sendMessage`
+- **Description:** Sends a message to another user in real-time.
+
+#### Receive Messages
+
+- **Socket Event:** `receiveMessage`
+- **Description:** Listens for incoming messages.
+
+#### Typing Indicator
+
+- **Socket Event:** `typing`
+- **Description:** Notifies the recipient when the sender is typing.
+
+#### Message Seen
+
+- **Socket Event:** `messageSeen`
+- **Description:** Marks a message as read and updates the status.
+
+---
+
+### Social Features
 
 #### Follow/Unfollow User
 
 - **URL:** `/followUnfollowUser`
 - **Method:** POST
-- **Description:** Toggle follow status for a user.
+- **Description:** Toggle the follow status for a user.
 
-#### Get User News Feed
+#### Get Suggested Users
+
+- **URL:** `/suggestedUsers/:userId`
+- **Method:** GET
+- **Description:** Fetch recommended user profiles for the logged-in user.
+
+#### News Feed
 
 - **URL:** `/getnewsFeed/:userId`
 - **Method:** GET
-- **Description:** Retrieve the news feed (posts from followed users) for the given user ID.
+- **Description:** Retrieve posts from followed users for the news feed.
 
-#### Get Other User's Profile
+---
 
-- **URL:** `/getProfile/:userId`
-- **Method:** GET
-- **Description:** Retrieve the profile information for a specific user.
+## Socket.IO Setup
+
+Real-time communication is powered by **Socket.IO**. To integrate:
+
+1. The backend server listens for events like `sendMessage`, `typing`, and `messageSeen`.
+2. Socket.IO maintains a persistent connection for instant updates.
+
+---
 
 ## Authentication
 

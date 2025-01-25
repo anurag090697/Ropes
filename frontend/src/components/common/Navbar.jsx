@@ -5,7 +5,7 @@ import rlogo from "../../assets/threadsl.png";
 import { NavLink } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { IoSearch } from "react-icons/io5";
-// import Cookies from 'js-cookie'; 
+// import Cookies from 'js-cookie';
 import { PiHeartBold } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
@@ -122,22 +122,25 @@ function Navbar() {
   return (
     <div className='absolute top-0 z-50'>
       <header className='md:p-2 text-white flex items-center justify-between w-full fixed text-4xl px-4 py-1 bg-slate-700 md:bg-transparent'>
-        <NavLink to={user.logged ? "/" : "/login"} className='place-self-start'>
-          <img className='w-12 md:w-14 ' src={rlogo} alt='Ropes-logo' />
+        <NavLink
+          to={user.logged ? "/" : "/login"}
+          className='place-self-start '
+        >
+          <img className='w-10 md:w-14 ' src={rlogo} alt='Ropes-logo' />
         </NavLink>
-        <h3 className='text-3xl md:hidden'>Ropes</h3>
+        <h3 className='text-xl md:text-3xl hidden'>Ropes</h3>
         <NavLink
           to='/messages'
           className={({ isActive }) =>
-            isActive
-              ? "text-lime-200 block md:hidden"
-              : "hover:text-white  block md:hidden"
+            `${
+              isActive ? "hidden" : "hover:text-white block md:hidden"
+            } text-2xl`
           }
         >
           <BsChatRightTextFill />
         </NavLink>
       </header>
-      <div className='text-gray-400 w-full md:w-fit md:mt-20 z-50 text-4xl fixed left-0 md:p-4 flex items-center justify-around gap-20 bottom-0 md:top-0 md:flex-col'>
+      <div className='text-gray-400 w-full md:w-fit md:mt-20 z-50 text-xl md:text-4xl fixed left-0 md:p-4 flex items-center justify-around gap-20 bottom-0 md:top-0 md:flex-col'>
         <div className='flex bg-slate-800 w-full md:bg-transparent md:flex-col items-center justify-around py-2 gap-8 '>
           <NavLink
             className={({ isActive }) =>

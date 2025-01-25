@@ -7,6 +7,7 @@ import {
   followUnfollowUser,
   searchuser,
   getSuggestedUsers,
+  getUserPosts,
 } from "../../slice";
 import { useNavigate } from "react-router";
 
@@ -43,6 +44,16 @@ function SearchUsers() {
       dispatch(getSuggestedUsers({ userId: user._id }));
     }
   }, [user]);
+
+  function openProfile(ele) {
+    dispatch(getUserPosts({ userId: ele._id }));
+    // console.log(ele);
+    setTimeout(() => {
+      navigate(`/otherprofile/${ele.username}`, {
+        state: { data: ele },
+      });
+    }, 500);
+  }
 
   return (
     <div className='flex flex-col md:gap-1 w-full md:px-20 md:py-10 items-center justify-center'>
@@ -87,12 +98,8 @@ function SearchUsers() {
                   />{" "}
                   <div className='flex flex-col md:items-start gap-4 justify-center cursor-pointer'>
                     <h2
-                      className='text-xl text-center'
-                      onClick={() =>
-                        navigate(`/otherprofile/${ele.username}`, {
-                          state: { data: ele },
-                        })
-                      }
+                      className='text-xl text-center cursor-pointer'
+                      onClick={() => openProfile(ele)}
                     >
                       {ele.name}
                     </h2>
@@ -142,11 +149,7 @@ function SearchUsers() {
                   <div className='flex flex-col md:items-start gap-4 justify-center'>
                     <h2
                       className='text-xl text-center'
-                      onClick={() =>
-                        navigate(`/otherprofile/${ele.username}`, {
-                          state: { data: ele },
-                        })
-                      }
+                      onClick={() => openProfile(ele)}
                     >
                       {ele.name}
                     </h2>

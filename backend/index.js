@@ -3,11 +3,14 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+// import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import ropesRouter from "./routes/ropesRoutes.js";
 import { createServer } from "http";
 import { initializeSocket } from "./services/Socket.js";
+
+// dotenv.config();
 
 const corsOptions = {
   origin: process.env.MAIN_PORT,

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import Signup from "./components/user/Signup";
 import Login from "./components/user/Login";
@@ -19,10 +19,15 @@ import Notification from "./components/pages/Notification";
 // import { alreadyLogged } from "./slice";
 function App() {
   const { user } = useSelector((state) => state.ropes);
-  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (!user.logged) {
+  //     navigate("/login");
+  //   }
+  // }, [user]);
 
   return (
-    <div className='container min-w-full max-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none py-14 md:pb-2 dark:from-white dark:to-white'>
+    <div className='container min-w-full max-w-full min-h-dvh bg-gradient-to-br from-gray-700 to-slate-800 select-none py-12 md:pb-2 dark:from-white dark:to-white'>
       <BrowserRouter>
         <Navbar></Navbar>
         <Routes>
@@ -50,7 +55,10 @@ function App() {
             element={<OtherProfile></OtherProfile>}
           ></Route>
           <Route path='/messages' element={<Messages></Messages>}></Route>
-          <Route path="/notification" element={<Notification></Notification>}></Route>
+          <Route
+            path='/notification'
+            element={<Notification></Notification>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

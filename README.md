@@ -27,15 +27,9 @@ This is a modern social media platform frontend built with React and Node.js. It
 - Tailwind CSS for styling
 - Node.js, Express
 - MongoDb for data storage
+- Real-time Communication: Socket.IO
 
 ## Running the Application
 
 The application will be available at [Ropes](https://ropes-one.vercel.app/).
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request

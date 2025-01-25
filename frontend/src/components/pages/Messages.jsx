@@ -22,7 +22,7 @@ function Messages() {
   const messageEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageEndRef.current?.scrollIntoView({ behavior: "instant" });
   };
 
   const { user, conversations, otherprofile } = useSelector(
@@ -102,8 +102,15 @@ function Messages() {
           recipient,
         })
       );
+
+      const temp = conversations.find(
+        (ele) =>
+          ele.participants[0].userId === recipient ||
+          ele.participants[1].userId === recipient
+      );
+      if (temp) setSelectedChat(temp);
     } else dispatch(getConversation({ sender: user._id }));
-  }, [recipient, user]);
+  }, []);
 
   async function sendmsg(e) {
     e.preventDefault();
@@ -124,7 +131,14 @@ function Messages() {
     setShowEmojiPicker(false);
     scrollToBottom();
   }
-
+  function lastMsg(msg) {
+    if (msg.messages.length === 0) return "";
+    let obj = msg.messages[msg.messages.length - 1];
+    let sender = obj.sender === user.username ? "You:" : obj.sender + ":";
+    let str = msg.messages[msg.messages.length - 1].text;
+    let ans = str.length > 25 ? sender + str.substring(0, 24) + "..." : str;
+    return ans;
+  }
   // async function removeSelected() {
   //   socket.emit("left_conversation", {
   //     chatId: selectedChat._id,
@@ -136,7 +150,7 @@ function Messages() {
   }
 
   return (
-    <div className='mx-auto w-full md:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 md:h-[600px] overflow-y-scroll relative text-white bg-gradient-to-r from-slate-500 to-gray-500 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-track]:bg-gray-100  [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-700 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500'>
+    <div className='mx-auto w-full md:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 md:h-[600px] overflow-y-auto relative text-white bg-gradient-to-r from-slate-500 to-gray-500 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-track]:bg-gray-100  [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-700 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500'>
       {" "}
       {selectedChat ? (
         <>
@@ -172,15 +186,15 @@ function Messages() {
                       key={idx}
                       className={`flex items-center ${
                         ele.sender == user.username
-                          ? "justify-end "
-                          : "justify-start"
+                          ? "justify-end pl-2"
+                          : "justify-start pr-2"
                       } gap-2`}
                     >
                       {" "}
                       <h3
                         className={`${
                           ele.sender == user.username
-                            ? "place-self-end rounded-l-lg"
+                            ? "place-self-end rounded-l-lg "
                             : "place-self-start rounded-r-lg"
                         } bg-slate-700 p-1 text-sky-100 font-medium border flex items-center justify-center gap-2`}
                       >
@@ -237,7 +251,7 @@ function Messages() {
                 ""
               )}
             </div>{" "}
-            <div className='flex gap-1 items-center justify-center w-full border-2 bg-blue-900 border-sky-800 rounded-lg fixed bottom-14 md:sticky z-50 md:bottom-0 right-0'>
+            <div className='flex gap-1 items-center justify-center w-full border-2 bg-blue-900 border-sky-800 rounded-lg fixed bottom-11 md:sticky z-50 md:bottom-0 right-0'>
               <input
                 type='text'
                 name='message'
@@ -264,14 +278,14 @@ function Messages() {
                 onChange={(e) => setMsg(e.target.value)}
                 placeholder='Type a message...'
               />{" "}
-              <div className='relative'>
+              <div className='relative hidden sm:block'>
                 <button
                   className='text-2xl text-amber-400 hover:text-orange-400'
                   onClick={() => setShowEmojiPicker((prev) => !prev)}
                 >
                   <BsEmojiHeartEyesFill />
                 </button>{" "}
-                <div className='absolute bottom-10 right-0'>
+                <div className=' absolute bottom-10 right-0'>
                   <EmojiPicker
                     open={showEmojiPicker}
                     onEmojiClick={handleEmojiClick}
@@ -303,11 +317,11 @@ function Messages() {
                   <div
                     onClick={() => setSelectedChat(ele)}
                     key={idx}
-                    className='bg-sky-900/40 w-full border border-transparent hover:border-amber-500 p-2 rounded-xl hover:bg-sky-900 gap-2 flex flex-wrap md:flex-nowrap items-start justify-start'
+                    className='bg-sky-900/40 w-full border border-transparent hover:border-amber-500 p-2 rounded-xl hover:bg-sky-900 gap-2 flex items-start justify-start'
                   >
                     {/* ele.participants.find((ele)=>ele!=user._id) */}
                     <img
-                      className='w-12 md:w-14 h-14 object-cover rounded-full'
+                      className='w-12 h-12 md:w-14 md:h-14 object-cover rounded-full'
                       src={
                         ele.participants[0].userId == user._id
                           ? ele.participants[1].displaypicture
@@ -321,11 +335,7 @@ function Messages() {
                           ? ele.participants[1].name
                           : ele.participants[0].name}
                       </h2>
-                      <p className='text-gray-400'>
-                        {ele.messages.length
-                          ? ele.messages[ele.messages.length - 1].text
-                          : ""}
-                      </p>
+                      <p className='text-gray-400'>{lastMsg(ele)}</p>
                     </div>
                   </div>
                 );
@@ -345,7 +355,7 @@ function Messages() {
           </div>
         </div>
       )}
-      <div ref={messageEndRef} className='mb-4' />
+      <div ref={messageEndRef} className='' />
     </div>
   );
 }
@@ -365,3 +375,7 @@ export default Messages;
 // const socket = io(import.meta.env.VITE_ROPES_API, {
 //   withCredentials: true,
 // });
+
+// {ele.messages.length
+//   ?((ele.messages[ele.messages.length - 1].sender == user.username ? 'You:' : ele.messages[ele.messages.length - 1].sender) + ele.messages[ele.messages.length - 1].text)
+//   : ""}

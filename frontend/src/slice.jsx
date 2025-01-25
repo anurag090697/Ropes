@@ -108,11 +108,11 @@ export const createPost = createAsyncThunk(
 
 export const getUserPosts = createAsyncThunk(
   "ropes/getUserPosts",
-  async (userId, { rejectWithValue }) => {
+  async ({ userId }, { rejectWithValue }) => {
     try {
-      let tm = userId.userId;
-      const response = await axiosInstance.get(`/getUser/post/` + tm);
-      // console.log(response);
+      // let tm = userId.userId;
+      const response = await axiosInstance.get(`/getUser/post/` + userId);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       return error.response.data;
@@ -172,7 +172,7 @@ export const followUnfollowUser = createAsyncThunk(
         targetId,
       });
       // console.log(response);
-      return response.data;
+      return targetId;
     } catch (error) {
       return error.response.data;
     }
@@ -318,7 +318,8 @@ const ropesSlice = createSlice({
       })
       .addCase(userLogout.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        // state.user = action.payload;
+        state.user = { logged: false };
       })
       .addCase(userLogout.rejected, (state, action) => {
         state.error = "failed";
@@ -365,14 +366,19 @@ const ropesSlice = createSlice({
       })
       .addCase(likeUnlikePost.fulfilled, (state, action) => {
         state.status = "succeeded";
-        let temp = state.userfeed;
-        const { userId, postId } = action.payload;
-        temp.forEach((element) => {
-          if (element._id == postId) {
-            element.likes.push(userId);
-          }
-        });
-        state.userfeed = temp;
+        // let temp = state.userfeed;
+        // const { userId, postId } = action.payload;
+        // temp.forEach((element) => {
+        //   if (element._id == postId) {
+        //     const index = element.likes.indexOf(userId);
+        //     if (index > -1) {
+        //       element.likes.splice(index, 1);
+        //     } else {
+        //       element.likes.push(userId);
+        //     }
+        //   }
+        // });
+        // state.userfeed = temp;
       })
       .addCase(likeUnlikePost.rejected, (state, action) => {
         state.error = "failed";
@@ -405,11 +411,23 @@ const ropesSlice = createSlice({
       })
       .addCase(followUnfollowUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.responseObj = action.payload;
+        // state.responseObj = action.payload;
+        // console.log(action.payload);
+        let findFriend = action.payload;
+        let temp = state.user;
+
+        if (temp.following.includes(findFriend)) {
+          let newList = temp.following.filter((ele) => ele != findFriend);
+          temp.following = newList;
+        } else {
+          temp.following.push(findFriend);
+        }
+        state.user = temp;
       })
       .addCase(followUnfollowUser.rejected, (state, action) => {
         state.error = "failed";
         state.responseObj = action.payload;
+        console.log(action.payload);
       })
       .addCase(getNewsFeed.pending, (state, action) => {
         state.status = "loading";

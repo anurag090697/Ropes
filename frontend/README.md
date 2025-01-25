@@ -1,43 +1,46 @@
 <!-- @format -->
 
-# ROPES
+# ROPES Frontend
 
 ## Introduction
 
-This is a modern social media platform frontend built with React. It allows users to connect, share posts, and interact with each other's content.
+ROPES is a modern social media platform that enables users to connect, share posts, chat and interact in real-time. This frontend application is built with React and offers a seamless user experience.
 
 ## Features
 
-- User Authentication (Login/Signup)
-- Create posts with text, images, or both
-- View suggested user profiles
-- Follow/Unfollow other users
-- Like and comment on posts
-- Delete own posts
-- Responsive design for various screen sizes
+- **User Authentication**: Secure login and signup functionality.
+- **Post Creation**: Share posts containing text, images, or both.
+- **User Suggestions**: Discover and connect with suggested profiles.
+- **Follow/Unfollow**: Manage your network by following or unfollowing users.
+- **Engagement**: Like and comment on posts to interact with others.
+- **Post Management**: Delete your own posts when needed.
+- **Real-Time Messaging**: Chat with other users, see when they are typing, and know when your messages are seen.
+- **Responsive Design**: Optimized for various screen sizes to ensure a consistent experience across devices.
 
 ## Technologies Used
 
-- React
-- Redux for state management
-- React Router DOM for routing
-- Axios for API requests
-- React Icons for UI icons
-- Tailwind CSS for styling
+- **React**: JavaScript library for building user interfaces.
+- **Redux**: State management for predictable application behavior.
+- **React Router DOM**: Declarative routing for React applications.
+- **Axios**: Promise-based HTTP client for API requests.
+- **React Icons**: Collection of popular icons for React projects.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Socket.IO**: Enables real-time, bidirectional communication for messaging features.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
+Ensure you have the following installed:
 
-- Node.js (v14.0.0 or later)
-- npm (v6.0.0 or later)
+- **Node.js** (v14.0.0 or later)
+- **npm** (v6.0.0 or later)
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository**:
 
-   ```
+   ```bash
    git clone https://github.com/anurag090697/Ropes.git
+
    ```
 
 2. Navigate to the project directory:

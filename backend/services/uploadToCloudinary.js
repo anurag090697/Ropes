@@ -2,7 +2,7 @@
 
 import { v2 as cloudinary } from "cloudinary";
 import "dotenv/config";
-// import upload from "../middlewares/imageUpload.js";
+import upload from "../middlewares/imageUpload.js";
 
 export async function uploadImage(req, res) {
   // upload.single("url");
@@ -11,7 +11,7 @@ export async function uploadImage(req, res) {
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
-  //   console.log(process.env.CLOUDINARY_API_USERNAME);
+  // console.log(process.env.CLOUDINARY_API_USERNAME);
   try {
     const picture = await cloudinary.uploader.upload(req.file.path, {
       folder: "ropes",

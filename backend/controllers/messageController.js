@@ -42,7 +42,7 @@ export async function getChats(req, res) {
           $and: [{ userId: sender }],
         },
       },
-    });
+    }).sort({ updatedAt: -1 });
     res.status(200).json(allConvos);
     // if (recipient) {
     //   console.log(sender, recipient);

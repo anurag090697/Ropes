@@ -58,7 +58,7 @@ function SuggestProfiles() {
                   />{" "}
                   <div className='flex flex-col items-start gap-4 justify-center'>
                     <h2
-                      className='text-xl text-center'
+                      className='text-xl text-center cursor-pointer'
                       onClick={() =>
                         navigate(`/otherprofile/${ele.username}`, {
                           state: { data: ele },
