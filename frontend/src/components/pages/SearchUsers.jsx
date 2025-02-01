@@ -66,7 +66,7 @@ function SearchUsers() {
         <p className='text-rose-700'>{msgerr.error}</p>
       </div>
 
-      <div className='p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-3 md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <form
           action=''
           className='flex items-center justify-center gap-1 sm:gap-4'
@@ -83,22 +83,22 @@ function SearchUsers() {
             Search
           </button>
         </form>
-        <div className='flex flex-col gap-3 md:py-5 p-2 md:px-6 items-center justify-center'>
+        <div className='flex flex-wrap gap-3 px-1 py-3 md:p-6 items-center justify-center'>
           {searchusers.length ? (
             searchusers.map((ele, idx) => {
               return (
                 <div
                   key={idx}
-                  className='border flex items-center justify-center flex-col md:flex-row md:justify-start gap-1 md:gap-6 border-sky-500 p-2 rounded-md w-full'
+                  className='border flex items-center justify-center gap-1 md:gap-6 border-sky-500 p-2 rounded-md w-80'
                 >
                   <img
-                    className='w-40 h-40 object-center rounded-full'
+                    className='w-24 h-24 md:w-40 md:h-40 object-cover rounded-full'
                     src={ele.displaypicture}
                     alt=''
                   />{" "}
-                  <div className='flex flex-col md:items-start gap-4 justify-center cursor-pointer'>
+                  <div className='flex flex-col items-center gap-4 justify-center cursor-pointer w-1/2 text-lg md:text-xl'>
                     <h2
-                      className='text-xl text-center cursor-pointer'
+                      className='text-center cursor-pointer'
                       onClick={() => openProfile(ele)}
                     >
                       {ele.name}
@@ -112,7 +112,7 @@ function SearchUsers() {
                           })
                         )
                       }
-                      className={`border-2 p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800 ${
+                      className={`border-2 p-1 md:p-2 rounded-lg hover:bg-gray-300 hover:text-green-800 hover:border-green-800 text-sm md:text-xl ${
                         ele.username === user.username ? "hidden" : ""
                       }`}
                     >
@@ -125,30 +125,30 @@ function SearchUsers() {
               );
             })
           ) : (
-            <p className='text-center w-full my-20 text-rose-500 text-4xl'>
+            <p className='text-center w-full my-20 bg-gradient-to-r from-teal-500 via-orange-500 to-yellow-500 text-transparent bg-clip-text text-4xl animate-bounce'>
               No Users Found
             </p>
           )}
         </div>
       </div>
-      <div className='p-1 md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-t md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
+      <div className='p-3 md:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-t md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
         <h1 className='text-2xl text-center'>Suggested Profiles</h1>
-        <div className='flex flex-wrap gap-1 md:gap-4 items-center justify-between py-6'>
+        <div className='flex flex-wrap gap-1 md:gap-4 items-center justify-center py-6'>
           {suggestedUsers.length ? (
             suggestedUsers.map((ele, idx) => {
               return (
                 <div
                   key={idx}
-                  className='border flex items-center flex-col md:flex-row justify-center md:justify-start gap-6 border-sky-500 p-2 rounded-md w-full'
+                  className='border flex items-center flex-row justify-center gap-6 border-sky-500 p-2 rounded-md w-80'
                 >
                   <img
-                    className='w-40 h-40 object-center rounded-full'
+                    className='w-24 h-24 md:w-40 md:h-40 object-cover rounded-full'
                     src={ele.displaypicture}
                     alt=''
                   />{" "}
-                  <div className='flex flex-col md:items-start gap-4 justify-center'>
+                  <div className='flex flex-col items-center justify-center gap-4 w-1/2 text-lg md:text-xl'>
                     <h2
-                      className='text-xl text-center'
+                      className=' text-center'
                       onClick={() => openProfile(ele)}
                     >
                       {ele.name}
@@ -173,7 +173,7 @@ function SearchUsers() {
               );
             })
           ) : (
-            <p className='text-center w-full my-20 text-rose-500 text-4xl'>
+            <p className='text-center w-full animate-bounce my-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500 via-emerald-300 to-rose-600 text-transparent bg-clip-text text-4xl'>
               No Users Found
             </p>
           )}

@@ -16,6 +16,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 // import { MdOutlineRepeatOne } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
+import LoaderBox from "../common/LoaderBox";
 
 function PostCard({ pdata }) {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ function PostCard({ pdata }) {
   }, []);
   // console.log(postdata);
   if (!otherprofile[data.postedBy] || !user || !data) {
-    return <p className='py-20 text-center text-rose-600'>Loading....</p>;
+    return <LoaderBox />;
   }
 
   function addnewcomment({ user, text, postId }) {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { followUnfollowUser, getUserPosts } from "../../slice";
 import PostCard from "./PostCard";
+import LoaderBox from "../common/LoaderBox";
 
 function OtherProfile() {
   const location = useLocation();
@@ -27,7 +28,7 @@ function OtherProfile() {
   };
 
   if (!data || !user.logged) {
-    return <p className='py-20 text-sky-400 text-3xl'>Loading</p>;
+    return <LoaderBox></LoaderBox>
   }
 
   return (

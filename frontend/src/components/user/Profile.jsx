@@ -111,7 +111,7 @@ function Profile() {
         </button>
       </div>
       <div className=' sm:p-8 w-full lg:w-3/4 xl:w-3/5 max-w-full md:rounded-lg border-t md:border-2 text-white bg-gradient-to-r from-slate-500 to-gray-500'>
-        <h2 className='text-xl text-center'>Posts</h2>
+        <h2 className='text-xl text-center hidden md:block'>Posts</h2>
         <div className='flex flex-col items-center justify-center gap-4 md:p-2'>
           {userPosts.length > 0 ? (
             userPosts.map((ele, idx) => {

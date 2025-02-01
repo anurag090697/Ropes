@@ -150,7 +150,7 @@ function Messages() {
   }
 
   return (
-    <div className='mx-auto w-full md:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 md:h-[600px] overflow-y-auto relative text-white bg-gradient-to-r from-slate-500 to-gray-500 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-track]:bg-gray-100  [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-700 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500'>
+    <div className='mx-auto w-full md:w-3/4 xl:w-3/5 max-w-full md:rounded-lg md:border-2 h-dvh md:h-[600px] overflow-y-auto relative text-white bg-gradient-to-r from-slate-500 to-gray-500 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-track]:bg-gray-100  [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-gray-700 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500'>
       {" "}
       {selectedChat ? (
         <>
@@ -251,7 +251,7 @@ function Messages() {
                 ""
               )}
             </div>{" "}
-            <div className='flex gap-1 items-center justify-center w-full border-2 bg-blue-900 border-sky-800 rounded-lg fixed bottom-11 md:sticky z-50 md:bottom-0 right-0'>
+            <div className='flex gap-1 items-center justify-center w-full border-2 bg-blue-900 border-sky-800 rounded-lg fixed bottom-14 md:sticky z-50 md:bottom-0 right-0'>
               <input
                 type='text'
                 name='message'

@@ -112,21 +112,42 @@ function Home() {
                 1
               </span>
             </label>
-            <button className='py-1 px-2 bg-fuchsia-900 rounded-lg border shadow-md shadow-gray-900 hover:bg-slate-950 hover:border-fuchsia-700 hover:text-cyan-600'>
+            <button className='py-0.5 sm:py-1 px-2 bg-fuchsia-900 rounded-lg border shadow-md shadow-gray-900 hover:bg-slate-950 hover:border-fuchsia-700 hover:text-cyan-600'>
               Post
             </button>
           </form>
         </div>
         <hr />
         <div className='flex flex-col items-center justify-center md:gap-8 relative'>
-          <h1 className='text-2xl sm:text-3xl py-2 text-cyan-400'>NewsFeed</h1>
+          <h1 className='text-3xl py-2 text-cyan-400 hidden md:block'>
+            NewsFeed
+          </h1>
           <div className='flex flex-col md:gap-2 items-center justify-center'>
             {userfeed.length ? (
               userfeed.map((ele, idx) => {
                 return <PostCard key={idx} pdata={ele} user={user}></PostCard>;
               })
             ) : (
-              <p className='text-rose-400 text-2xl my-20'>No Posts to Show</p>
+              <div className='flex items-center justify-center min-h-screen'>
+                <div className='relative'>
+                  <div className='relative w-32 h-32'>
+                    <div
+                      className='absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-r-[#0ff] border-b-[#0ff] animate-spin'
+                      style={{ animationDuration: "3s" }}
+                    ></div>
+
+                    <div
+                      className='absolute w-full h-full rounded-full border-[3px] border-gray-100/10 border-t-[#0ff] animate-spin'
+                      style={{
+                        animationDuration: "2s",
+                        animationDirection: "reverse",
+                      }}
+                    ></div>
+                  </div>
+
+                  <div className='absolute inset-0 bg-gradient-to-tr from-[#0ff]/10 via-transparent to-[#0ff]/5 animate-pulse rounded-full blur-sm'></div>
+                </div>
+              </div>
             )}
           </div>
         </div>

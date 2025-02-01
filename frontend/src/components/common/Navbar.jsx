@@ -39,7 +39,7 @@ function Navbar() {
   // console.log(Cookies.get('ropes_token'));
   const logControlls = (
     <ul
-      className={`text-lg absolute flex flex-col items-start justify-center w-44 gap-1 ${
+      className={` text-lg absolute flex flex-col items-start justify-center w-44 gap-1 ${
         optbottom ? "" : "hidden"
       } bg-white text-slate-800 font-medium px-3 py-4 rounded-lg border-2 border-gray-500 right-0 bottom-12 md:left-10 md:bottom-0`}
     >
@@ -47,7 +47,7 @@ function Navbar() {
         <>
           <li
             onClick={setMode}
-            className={`flex gap-4 text-xl py-2 px-3 rounded-3xl border select-none relative dark  dark:bg-sky-900  bg-amber-200`}
+            className={`hidden gap-4 text-xl py-2 px-3 rounded-3xl border select-none relative dark  dark:bg-sky-900  bg-amber-200`}
           >
             <span
               className={`rounded-full border w-8 h-8 absolute top-0.5 left-2 ${
@@ -120,7 +120,7 @@ function Navbar() {
   }, []);
 
   return (
-    <div className='absolute top-0 z-50'>
+    <div className={`${user.logged ? "" : "hidden"} absolute top-0 z-50`}>
       <header className='md:p-2 text-white flex items-center justify-between w-full fixed text-4xl px-4 py-1 bg-slate-700 md:bg-transparent'>
         <NavLink
           to={user.logged ? "/" : "/login"}
