@@ -184,7 +184,7 @@ function Navbar() {
           >
             <HiOutlineUser />
           </NavLink>
-          <div className='relative md:block '>
+          <div className='relative md:block group'>
             <button
               className=''
               // onBlur={() => setoptbottom(false)}

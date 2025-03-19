@@ -10,6 +10,7 @@ import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { io } from "socket.io-client";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaCheck, FaCheckDouble } from "react-icons/fa";
+import { IoMdSend } from "react-icons/io";
 
 function Messages() {
   const location = useLocation();
@@ -297,10 +298,10 @@ function Messages() {
                 </div>
               </div>
               <button
-                className='bg-lime-500 py-1 px-2 text-lg rounded-r-lg '
+                className='bg-lime-500 py-2 px-2 text-xl rounded-r-lg hover:text-blue-500'
                 onClick={(e) => sendmsg(e)}
               >
-                Send
+                <IoMdSend />
               </button>
             </div>
           </div>
